@@ -7,9 +7,11 @@ Depends: R (>= 3.2.3)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports: reticulate
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Imports: reticulate
