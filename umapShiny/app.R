@@ -7,7 +7,12 @@
 #    http://shiny.rstudio.com/
 #
 
+#umap <- get(umap, envir = .GlobalEnv)
+
+umap <- read.delim("../tests/umap_output.txt")
 markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
+
+head(umap)
 
 library(shiny)
 
@@ -33,9 +38,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-   output$distPlot <- renderPlot({
+   output$umapPlot <- renderPlot({
       # generate bins based on input$bins from ui.R
-     ggplot(embedding, aes(x = UMAP1, y = UMAP2, color = input$marker)) +
+     ggplot(umap, aes_string(x = "UMAP1", y = "UMAP2", color=input$marker)) +
         geom_point()
    })
 }
