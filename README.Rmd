@@ -1,25 +1,35 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-umapr
-=====
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# umapr
 
 [![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr)
 
 `umapr` makes it easy to run [UMAP](https://github.com/lmcinnes/umap) from R. UMAP was created by Leland McInnes and John Healy ([arxiv](https://arxiv.org/abs/1802.03426)).
 
-Installation
-------------
+## Installation
 
 You can install umapr from github with:
 
-``` r
+```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("ropenscilabs/umapr")
 ```
 
-Here is an example of running UMAP on the `iris` data set.
+Here is an example of running UMAP on the `iris` data set. 
 
-``` r
+```{r}
 # library(umapr)
 # select only numeric columns
 # embedding <- umap(iris[ , 1:4])
@@ -33,4 +43,4 @@ Here is an example of running UMAP on the `iris` data set.
   # geom_point()
 ```
 
-See the vignette for more detailed examples.
+See the vignette for more detailed examples. 
