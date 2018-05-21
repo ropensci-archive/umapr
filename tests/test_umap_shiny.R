@@ -12,8 +12,8 @@ umap <- cbind(digits$data, umap_out) %>% data.frame()
 
 #runUmapShiny(umap)
 
-umapout <- make_umap_object(umap_result = umap)
+#umapout <- make_umap_object(umap_result = umap)
 
-umapout$plot("V4")
+#umapout$plot("V4")
 
 runUmapShiny(umap)
