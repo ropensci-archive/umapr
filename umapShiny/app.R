@@ -7,7 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
-
+markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
 
 library(shiny)
 
