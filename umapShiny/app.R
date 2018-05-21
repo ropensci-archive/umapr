@@ -10,10 +10,10 @@
 #umap <- get(umap, envir = .GlobalEnv)
 
 #umap <- read.delim("../tests/umap_output.txt")
-#markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
+markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
 
-markers <- umap$markers
-print(markers)
+#markers <- umap$markers
+#print(markers)
 
 #head(umap)
 
@@ -43,9 +43,11 @@ server <- function(input, output) {
 
    output$umapPlot <- renderPlot({
 
-      umap$plot(input$marker)
-     #ggplot(umap, aes_string(x = "UMAP1", y = "UMAP2", color=input$marker)) +
-      #  geom_point()
+      #umap$plot(input$marker)
+     out_plot <- ggplot(umap, aes_string(x = "UMAP1", y = "UMAP2", color=input$marker)) +
+        geom_point()
+
+     out_plot
    })
 }
 

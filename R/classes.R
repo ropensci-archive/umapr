@@ -14,7 +14,7 @@ umap_obj <- R6Class("umap_obj",
                           geom_point()
                       },
 
-                      initialize =function(umap_table, annotation=NULL){
+                      initialize = function(umap_table, annotation=NULL){
                         self$umap_table <- umap_table
                         if(!is.null(annotation)){
                             self$annotation = annotation
