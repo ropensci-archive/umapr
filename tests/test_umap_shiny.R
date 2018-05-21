@@ -10,4 +10,9 @@ umap_out <- umap$UMAP()$fit_transform(digits$data)
 colnames(umap_out) <- c("UMAP1","UMAP2")
 umap <- cbind(digits$data, umap_out) %>% data.frame()
 
-runUmapShiny(umap)
+#runUmapShiny(umap)
+
+umapout <- make_umap_object(umap_result = umap)
+umapout$plot("V4")
+
+runUmapShiny(umapout)

@@ -9,10 +9,13 @@
 
 #umap <- get(umap, envir = .GlobalEnv)
 
-umap <- read.delim("../tests/umap_output.txt")
-markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
+#umap <- read.delim("../tests/umap_output.txt")
+#markers <- colnames(umap)[!colnames(umap) %in% c("UMAP1","UMAP2")]
 
-head(umap)
+markers <- umap$markers
+print(markers)
+
+#head(umap)
 
 library(shiny)
 
@@ -39,9 +42,10 @@ ui <- fluidPage(
 server <- function(input, output) {
 
    output$umapPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-     ggplot(umap, aes_string(x = "UMAP1", y = "UMAP2", color=input$marker)) +
-        geom_point()
+
+      umap$plot(input$marker)
+     #ggplot(umap, aes_string(x = "UMAP1", y = "UMAP2", color=input$marker)) +
+      #  geom_point()
    })
 }
 
