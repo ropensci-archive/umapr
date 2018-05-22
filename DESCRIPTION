@@ -1,10 +1,18 @@
 Package: umapr
-Title: What the Package Does (one line, title case)
+Title: Wraps UMAP Algorithm for Dimension Reduction
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person("Sean", "Hughes", role = "aut"),
+    person("Ted", "Lazeras", role = "aut"),
+    person("Malisa", "Smith", role = "aut"),
+    person("Ju Yeong", "Kim", role = "aut"),
+    person("Angela", "Li", role = "aut")
+  )
+Description: Wraps the Python implementation of the UMAP dimension reductionality algorithm to use in `R`. Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensionality reduction algorithm that is computationally more efficient than t-SNE (McInnes and Healy, 2018) <https://arxiv.org/abs/1802.03426>. This package allows the user to run UMAP from R, producing a data frame that can be plotted on a 2-D graph.  
 Depends: R (>= 3.2.3)
-License: What license is it under?
+License: MIT + file LICENSE
+URL: https://github.com/ropenscilabs/umapr
+BugReports: https://github.com/ropenscilabs/umapr/issues
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat, knitr, rmarkdown
