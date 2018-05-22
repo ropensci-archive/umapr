@@ -17,9 +17,13 @@ library(bindrcpp)
 
 [![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr)
 
-`umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R. 
+`umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R. It uses the great [`reticulate`](https://cran.r-project.org/web/packages/reticulate/index.html) package.
 
 Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensionality reduction algorithm. It is similar to t-SNE but computationally more efficient. UMAP was created by Leland McInnes and John Healy ([github](https://github.com/lmcinnes/umap), [arxiv](https://arxiv.org/abs/1802.03426)). 
+
+## Contributors 
+
+[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas),[Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
 ## Installation
 

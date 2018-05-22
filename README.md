@@ -5,9 +5,14 @@ umapr
 
 [![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr)
 
-`umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R.
+`umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R. It uses the great [`reticulate`](https://cran.r-project.org/web/packages/reticulate/index.html) package.
 
 Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensionality reduction algorithm. It is similar to t-SNE but computationally more efficient. UMAP was created by Leland McInnes and John Healy ([github](https://github.com/lmcinnes/umap), [arxiv](https://arxiv.org/abs/1802.03426)).
+
+Contributors
+------------
+
+[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas),[Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
 Installation
 ------------
@@ -42,13 +47,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -2.868134 -12.44564
-#> 2          4.9         3.0          1.4         0.2 -1.045608 -11.74745
-#> 3          4.7         3.2          1.3         0.2 -0.962389 -12.53436
-#> 4          4.6         3.1          1.5         0.2 -0.879440 -12.55898
-#> 5          5.0         3.6          1.4         0.2 -2.659880 -12.39962
-#> 6          5.4         3.9          1.7         0.4 -3.191516 -13.70849
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2  -9.267761 -2.644199
+#> 2          4.9         3.0          1.4         0.2  -7.846807 -1.084607
+#> 3          4.7         3.2          1.3         0.2  -7.674437 -1.748850
+#> 4          4.6         3.1          1.5         0.2  -7.692246 -1.518014
+#> 5          5.0         3.6          1.4         0.2  -9.116217 -2.581461
+#> 6          5.4         3.9          1.7         0.4 -10.489628 -2.405052
 
 # plot the result
 embedding %>% 
