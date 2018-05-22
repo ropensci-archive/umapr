@@ -77,7 +77,7 @@ umap <- function(data,
   assert_that(is.flag(angular_rp_forest))
   assert_that(is.flag(verbose))
 
-  umap_module$UMAP(
+  umap_vec <- umap_module$UMAP(
     n_neighbors = as.integer(n_neighbors),
     n_components = as.integer(n_components),
     metric = metric,
@@ -98,6 +98,12 @@ umap <- function(data,
     angular_rp_forest = angular_rp_forest,
     verbose = verbose
   )$fit_transform(data)
+  
+  colnames(umap_vec) <- c("UMAP1", "UMAP2")
+  
+  output <- data.frame(cbind(data, umap_vec))
+  
+  make_umap_object(output)
 }
 
 is_dict <- function(x) {
