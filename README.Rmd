@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "img/"
 )
+library(bindrcpp)
 ```
 
 # umapr
@@ -73,15 +74,15 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ```{r fig.width=7}
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
-f <- lapply(neighbors, function(neighbor) {
+result <- lapply(neighbors, function(neighbor) {
   iris_result <- umap(iris[, 1:4], n_neighbors = neighbor)
  
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- neighbors
+names(result) <- neighbors
 
-bind_rows(f, .id = "Neighbor") %>% 
+bind_rows(result, .id = "Neighbor") %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
@@ -93,33 +94,34 @@ The `min_dist` argument can range from 0 to 1.
 ```{r fig.width=7}
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
-f <- lapply(dists, function(dist) {
+result <- lapply(dists, function(dist) {
   iris_result <- umap(iris[, 1:4], min_dist = dist)
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- dists
+names(result) <- dists
 
-bind_rows(f, .id = "Distance") %>% 
+bind_rows(result, .id = "Distance") %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Distance, scales = "free")
 ```
 
-The `distance` argument can be a bunch of stuff. 
+The `distance` argument can be many different distance functions. 
 
 ```{r fig.width=7}
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
-f <- lapply(dists, function(dist) {
+result <- lapply(dists, function(dist) {
   iris_result <- umap(iris[,1:4], metric = dist)
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- dists
+names(result) <- dists
 
-bind_rows(f, .id = "Metric") %>% 
+bind_rows(result, .id = "Metric") %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Metric, scales = "free")
 ```
+

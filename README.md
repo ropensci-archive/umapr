@@ -40,13 +40,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1    UMAP2
-#> 1          5.1         3.5          1.4         0.2 12.92441 4.082702
-#> 2          4.9         3.0          1.4         0.2 11.72879 1.948935
-#> 3          4.7         3.2          1.3         0.2 11.77402 2.604481
-#> 4          4.6         3.1          1.5         0.2 11.68779 2.527600
-#> 5          5.0         3.6          1.4         0.2 12.74414 3.944899
-#> 6          5.4         3.9          1.7         0.4 14.13293 4.326360
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 -7.120141 -3.048130
+#> 2          4.9         3.0          1.4         0.2 -5.782232 -4.520705
+#> 3          4.7         3.2          1.3         0.2 -6.475684 -4.575352
+#> 4          4.6         3.1          1.5         0.2 -6.232638 -4.814711
+#> 5          5.0         3.6          1.4         0.2 -6.803256 -2.848742
+#> 6          5.4         3.9          1.7         0.4 -7.070885 -2.098347
 
 # plot the result
 embedding %>% 
@@ -74,20 +74,19 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ``` r
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
-f <- lapply(neighbors, function(neighbor) {
+result <- lapply(neighbors, function(neighbor) {
   iris_result <- umap(iris[, 1:4], n_neighbors = neighbor)
  
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- neighbors
+names(result) <- neighbors
 
-bind_rows(f, .id = "Neighbor") %>% 
+bind_rows(result, .id = "Neighbor") %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Neighbor, scales = "free")
-#> Warning: package 'bindrcpp' was built under R version 3.4.4
 ```
 
 ![](img/unnamed-chunk-5-1.png)
@@ -97,14 +96,14 @@ The `min_dist` argument can range from 0 to 1.
 ``` r
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
-f <- lapply(dists, function(dist) {
+result <- lapply(dists, function(dist) {
   iris_result <- umap(iris[, 1:4], min_dist = dist)
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- dists
+names(result) <- dists
 
-bind_rows(f, .id = "Distance") %>% 
+bind_rows(result, .id = "Distance") %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Distance, scales = "free")
@@ -112,19 +111,19 @@ bind_rows(f, .id = "Distance") %>%
 
 ![](img/unnamed-chunk-6-1.png)
 
-The `distance` argument can be a bunch of stuff.
+The `distance` argument can be many different distance functions.
 
 ``` r
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
-f <- lapply(dists, function(dist) {
+result <- lapply(dists, function(dist) {
   iris_result <- umap(iris[,1:4], metric = dist)
   cbind(iris_result, Species = iris$Species)
 })
 
-names(f) <- dists
+names(result) <- dists
 
-bind_rows(f, .id = "Metric") %>% 
+bind_rows(result, .id = "Metric") %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Metric, scales = "free")
