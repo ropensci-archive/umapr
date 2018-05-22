@@ -17,3 +17,14 @@ umapout <- make_umap_object(umap_result = umap)
 #umapout$plot("V4")
 
 runUmapShiny(umap)
+
+library(flowCore)
+data("GvHD")
+out <- fsApply(GvHD, exprs)
+
+
+out <- out[,-8]
+test <- umap(out)
+
+colnames(umap_out) <- c("UMAP1","UMAP2")
+umap <- cbind(digits$data, umap_out) %>% data.frame()
