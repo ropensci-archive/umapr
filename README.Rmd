@@ -57,7 +57,7 @@ There is a function, which will bring up a Shiny app for exploring different col
 run_shiny_app(embedding)
 ```
 
-![img/shiny.png](Shiny App for viewing results)
+![Shiny App for Exploring Results](img/shiny.png)
 
 ## Function parameters
 

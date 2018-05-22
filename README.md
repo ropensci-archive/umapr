@@ -36,13 +36,13 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1    UMAP2
-#> 1          5.1         3.5          1.4         0.2 -8.813724 8.981453
-#> 2          4.9         3.0          1.4         0.2 -6.717337 9.312136
-#> 3          4.7         3.2          1.3         0.2 -7.053284 9.956016
-#> 4          4.6         3.1          1.5         0.2 -6.917423 9.911963
-#> 5          5.0         3.6          1.4         0.2 -8.906266 9.199086
-#> 6          5.4         3.9          1.7         0.4 -9.088832 7.885569
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 -0.6454334 -12.84665
+#> 2          4.9         3.0          1.4         0.2  1.3274510 -13.32654
+#> 3          4.7         3.2          1.3         0.2  1.0582075 -12.62525
+#> 4          4.6         3.1          1.5         0.2  1.1484436 -12.82906
+#> 5          5.0         3.6          1.4         0.2 -0.7188666 -12.55836
+#> 6          5.4         3.9          1.7         0.4 -1.7525203 -11.97780
 
 # plot the result
 embedding %>% bind_cols(embedding, Species=iris$Species) %>%
@@ -57,7 +57,7 @@ There is a function, which will bring up a Shiny app for exploring different col
 run_shiny_app(embedding)
 ```
 
-![img/shiny.png](Shiny%20App%20for%20viewing%20results)
+![Shiny App for Exploring Results](img/shiny.png)
 
 Function parameters
 -------------------
