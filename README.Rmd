@@ -76,14 +76,9 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ```{r fig.width=7}
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
-result <- lapply(neighbors, function(neighbor) {
-  umap(iris[, 1:4], n_neighbors = neighbor) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- neighbors
-
-bind_rows(result, .id = "Neighbor") %>% 
+neighbors %>% 
+  map_df(~umap(iris[,1:4], n_neighbors = .x) %>% 
+      mutate(Species = iris$Species, Neighbor = .x)) %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
@@ -95,14 +90,9 @@ The `min_dist` argument can range from 0 to 1.
 ```{r fig.width=7}
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
-result <- lapply(dists, function(dist) {
-  umap(iris[, 1:4], min_dist = dist) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- dists
-
-bind_rows(result, .id = "Distance") %>% 
+dists %>% 
+  map_df(~umap(iris[,1:4], min_dist = .x) %>% 
+      mutate(Species = iris$Species, Distance = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Distance, scales = "free")
@@ -113,14 +103,9 @@ The `distance` argument can be many different distance functions.
 ```{r fig.width=7}
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
-result <- lapply(dists, function(dist) {
-  umap(iris[,1:4], metric = dist) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- dists
-
-bind_rows(result, .id = "Metric") %>% 
+dists %>% 
+  map_df(~umap(iris[,1:4], metric = .x) %>% 
+      mutate(Species = iris$Species, Metric = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Metric, scales = "free")

@@ -42,13 +42,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1    UMAP2
-#> 1          5.1         3.5          1.4         0.2 -14.24266 7.384407
-#> 2          4.9         3.0          1.4         0.2 -12.10139 8.742928
-#> 3          4.7         3.2          1.3         0.2 -12.79791 8.733761
-#> 4          4.6         3.1          1.5         0.2 -12.55893 8.664491
-#> 5          5.0         3.6          1.4         0.2 -14.02096 7.264317
-#> 6          5.4         3.9          1.7         0.4 -13.90024 6.156092
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 -2.868134 -12.44564
+#> 2          4.9         3.0          1.4         0.2 -1.045608 -11.74745
+#> 3          4.7         3.2          1.3         0.2 -0.962389 -12.53436
+#> 4          4.6         3.1          1.5         0.2 -0.879440 -12.55898
+#> 5          5.0         3.6          1.4         0.2 -2.659880 -12.39962
+#> 6          5.4         3.9          1.7         0.4 -3.191516 -13.70849
 
 # plot the result
 embedding %>% 
@@ -76,14 +76,9 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ``` r
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
-result <- lapply(neighbors, function(neighbor) {
-  umap(iris[, 1:4], n_neighbors = neighbor) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- neighbors
-
-bind_rows(result, .id = "Neighbor") %>% 
+neighbors %>% 
+  map_df(~umap(iris[,1:4], n_neighbors = .x) %>% 
+      mutate(Species = iris$Species, Neighbor = .x)) %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
@@ -97,14 +92,9 @@ The `min_dist` argument can range from 0 to 1.
 ``` r
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
-result <- lapply(dists, function(dist) {
-  umap(iris[, 1:4], min_dist = dist) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- dists
-
-bind_rows(result, .id = "Distance") %>% 
+dists %>% 
+  map_df(~umap(iris[,1:4], min_dist = .x) %>% 
+      mutate(Species = iris$Species, Distance = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Distance, scales = "free")
@@ -117,14 +107,9 @@ The `distance` argument can be many different distance functions.
 ``` r
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
-result <- lapply(dists, function(dist) {
-  umap(iris[,1:4], metric = dist) %>% 
-    mutate(Species = iris$Species)
-})
-
-names(result) <- dists
-
-bind_rows(result, .id = "Metric") %>% 
+dists %>% 
+  map_df(~umap(iris[,1:4], metric = .x) %>% 
+      mutate(Species = iris$Species, Metric = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
     facet_wrap(~ Metric, scales = "free")
