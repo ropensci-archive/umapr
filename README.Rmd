@@ -8,7 +8,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "img/"
 )
 ```
 
@@ -44,16 +44,16 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 
 ```{r}
 # look at result
-head(embedding$returnData())
+head(embedding)
 
 # plot the result
-embedding$plot("Petal.Length")
+embedding
 ```
 
 The R6 object also includes an `$explore()` method, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ```{r eval=FALSE}
-embedding$explore()
+runShinyApp(embedding)
 ```
 
 ## Function parameters

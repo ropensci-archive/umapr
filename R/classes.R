@@ -3,9 +3,10 @@ library(ggplot2)
 
 umap_obj <- R6Class("umap_obj",
                     public = list(
+                      #inherit=base::data.frame,
                       markers=NULL,
                       umap_table=NULL,
-
+                      
                       plot = function(marker){
                         markers <- self$markers
                         if(!marker %in% markers){stop("marker not in list of markers")}

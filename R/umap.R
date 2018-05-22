@@ -103,7 +103,8 @@ umap <- function(data,
   
   output <- data.frame(cbind(data, umap_vec))
   
-  make_umap_object(output)
+  #make_umap_object(output)
+  output
 }
 
 is_dict <- function(x) {
