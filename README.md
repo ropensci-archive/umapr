@@ -19,6 +19,8 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("ropenscilabs/umapr")
 ```
 
+You will also need to install Python and the UMAP package, available [here](https://github.com/lmcinnes/umap).
+
 Basic use
 ---------
 
@@ -40,17 +42,17 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1      UMAP2
-#> 1          5.1         3.5          1.4         0.2  -9.211461 -0.5905422
-#> 2          4.9         3.0          1.4         0.2  -6.979179 -1.1421785
-#> 3          4.7         3.2          1.3         0.2  -7.526256 -0.5153928
-#> 4          4.6         3.1          1.5         0.2  -7.223620 -0.5717335
-#> 5          5.0         3.6          1.4         0.2  -9.154005 -0.4008612
-#> 6          5.4         3.9          1.7         0.4 -10.147538 -1.0923567
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1    UMAP2
+#> 1          5.1         3.5          1.4         0.2 -14.24266 7.384407
+#> 2          4.9         3.0          1.4         0.2 -12.10139 8.742928
+#> 3          4.7         3.2          1.3         0.2 -12.79791 8.733761
+#> 4          4.6         3.1          1.5         0.2 -12.55893 8.664491
+#> 5          5.0         3.6          1.4         0.2 -14.02096 7.264317
+#> 6          5.4         3.9          1.7         0.4 -13.90024 6.156092
 
 # plot the result
 embedding %>% 
-  bind_cols(embedding, Species = iris$Species) %>%
+  mutate(Species = iris$Species) %>%
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
@@ -59,7 +61,7 @@ embedding %>%
 There is a function called `run_umap_shiny()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ``` r
-run_shiny_app(embedding)
+run_umap_shiny(embedding)
 ```
 
 ![Shiny App for Exploring Results](img/shiny.png)
@@ -75,9 +77,8 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
 result <- lapply(neighbors, function(neighbor) {
-  iris_result <- umap(iris[, 1:4], n_neighbors = neighbor)
- 
-  cbind(iris_result, Species = iris$Species)
+  umap(iris[, 1:4], n_neighbors = neighbor) %>% 
+    mutate(Species = iris$Species)
 })
 
 names(result) <- neighbors
@@ -97,8 +98,8 @@ The `min_dist` argument can range from 0 to 1.
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 result <- lapply(dists, function(dist) {
-  iris_result <- umap(iris[, 1:4], min_dist = dist)
-  cbind(iris_result, Species = iris$Species)
+  umap(iris[, 1:4], min_dist = dist) %>% 
+    mutate(Species = iris$Species)
 })
 
 names(result) <- dists
@@ -117,8 +118,8 @@ The `distance` argument can be many different distance functions.
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 result <- lapply(dists, function(dist) {
-  iris_result <- umap(iris[,1:4], metric = dist)
-  cbind(iris_result, Species = iris$Species)
+  umap(iris[,1:4], metric = dist) %>% 
+    mutate(Species = iris$Species)
 })
 
 names(result) <- dists
