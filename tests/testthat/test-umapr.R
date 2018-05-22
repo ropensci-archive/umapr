@@ -54,17 +54,17 @@ test_that("Things work as expected", {
                         umap(data = data, random_state = 3L)))
 })
 
-test_that("R6 tests",
-          {
-              
-              set.seed(1)
-              data = cbind(matrix(rexp( 100 * 10, runif(1, 1E-5, 1E-3) ), 100, 10))
-              colnames(data) <- c(letters[1:10])
-              out <- umap(data)
-              
-              expect_equal(class(out)[1], "umap_obj")
-              pl <- out$plot("a")
-              expect_equal(class(pl)[-1], "ggplot")
-            
-            
-          })
+# test_that("R6 tests",
+#           {
+#               
+#               set.seed(1)
+#               data = cbind(matrix(rexp( 100 * 10, runif(1, 1E-5, 1E-3) ), 100, 10))
+#               colnames(data) <- c(letters[1:10])
+#               out <- umap(data)
+#               
+#               expect_equal(class(out)[1], "umap_obj")
+#               pl <- out$plot("a")
+#               expect_equal(class(pl)[-1], "ggplot")
+#             
+#             
+#           })
