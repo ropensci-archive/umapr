@@ -26,7 +26,7 @@ runUmapShiny <- function(umap_obj){
     # Sidebar with a slider input for number of bins
     sidebarLayout(
       sidebarPanel(
-        selectInput("marker", label = "Select Marker to Color By", choices = markers, selected = markers[1])
+        selectInput("marker", label = "Select Variable to Color By", choices = markers, selected = markers[1])
       ),
 
       # Show a plot of the generated distribution
