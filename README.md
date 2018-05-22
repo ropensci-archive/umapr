@@ -40,13 +40,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -7.120141 -3.048130
-#> 2          4.9         3.0          1.4         0.2 -5.782232 -4.520705
-#> 3          4.7         3.2          1.3         0.2 -6.475684 -4.575352
-#> 4          4.6         3.1          1.5         0.2 -6.232638 -4.814711
-#> 5          5.0         3.6          1.4         0.2 -6.803256 -2.848742
-#> 6          5.4         3.9          1.7         0.4 -7.070885 -2.098347
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1      UMAP2
+#> 1          5.1         3.5          1.4         0.2 -13.23999 -0.7355436
+#> 2          4.9         3.0          1.4         0.2 -12.50639 -2.8071050
+#> 3          4.7         3.2          1.3         0.2 -12.18168 -2.1712356
+#> 4          4.6         3.1          1.5         0.2 -12.40702 -2.5013227
+#> 5          5.0         3.6          1.4         0.2 -13.51378 -0.8766937
+#> 6          5.4         3.9          1.7         0.4 -13.01444  0.3315915
 
 # plot the result
 embedding %>% 
@@ -130,3 +130,32 @@ bind_rows(result, .id = "Metric") %>%
 ```
 
 ![](img/unnamed-chunk-7-1.png)
+
+Comparison to t-SNE and principal components analysis
+-----------------------------------------------------
+
+t-SNE and UMAP are both non-linear dimensionality reduction methods, in contrast to PCA. Because t-SNE is relatively slow, PCA is sometimes run first to reduce the dimensions of the data.
+
+We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in `timings.R`.
+
+The first data set is the same iris data set used above (149 observations of 4 variables):
+
+![t-SNE, PCA, and UMAP on iris](img/multiple_algorithms_iris.png)
+
+Next we tried a cancer data set, made up of 699 observations of 10 variables:
+
+![t-SNE, PCA, and UMAP on cancer](img/multiple_algorithms_cancer.png)
+
+Third we tried a soybean data set. It is made up of 531 observations and 35 variables:
+
+![t-SNE, PCA, and UMAP on soybeans](img/multiple_algorithms_bean.png)
+
+Finally we used a large single-cell RNAsequencing data set, with 551 observations (cells) of 55000 variables!
+
+![t-SNE, PCA, and UMAP on rna](img/multiple_algorithms_rna.png)
+
+PCA is orders of magnitude faster than t-SNE or UMAP (not shown). UMAP, though, is a substantial improvement over t-SNE both in terms of memory and time taken to run.
+
+![Time to run t-SNE vs UMAP](img/multiple_algorithms_time.png)
+
+![Memory to run t-SNE vs UMAP](img/multiple_algorithms_memory.png)

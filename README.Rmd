@@ -125,3 +125,30 @@ bind_rows(result, .id = "Metric") %>%
     facet_wrap(~ Metric, scales = "free")
 ```
 
+## Comparison to t-SNE and principal components analysis
+
+t-SNE and UMAP are both non-linear dimensionality reduction methods, in contrast to PCA. Because t-SNE is relatively slow, PCA is sometimes run first to reduce the dimensions of the data. 
+
+We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in `timings.R`. 
+
+The first data set is the same iris data set used above (149 observations of 4 variables): 
+
+![t-SNE, PCA, and UMAP on iris](img/multiple_algorithms_iris.png)
+
+Next we tried a cancer data set, made up of 699 observations of 10 variables: 
+
+![t-SNE, PCA, and UMAP on cancer](img/multiple_algorithms_cancer.png)
+
+Third we tried a soybean data set. It is made up of 531 observations and 35 variables: 
+
+![t-SNE, PCA, and UMAP on soybeans](img/multiple_algorithms_bean.png)
+
+Finally we used a large single-cell RNAsequencing data set, with 551 observations (cells) of 55000 variables! 
+
+![t-SNE, PCA, and UMAP on rna](img/multiple_algorithms_rna.png)
+
+PCA is orders of magnitude faster than t-SNE or UMAP (not shown). UMAP, though, is a substantial improvement over t-SNE both in terms of memory and time taken to run. 
+
+![Time to run t-SNE vs UMAP](img/multiple_algorithms_time.png)
+
+![Memory to run t-SNE vs UMAP](img/multiple_algorithms_memory.png)
