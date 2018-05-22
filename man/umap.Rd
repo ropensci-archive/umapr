@@ -20,7 +20,7 @@ umap(data, n_neighbors = 15L, n_components = 2L, metric = "euclidean",
 
 \item{metric}{character. The metric to use to compute distances in high dimensional space. If a string is passed it must match a valid predefined metric. If a general metric is required a function that takes two 1d arrays and returns a float can be provided. For performance purposes it is required that this be a numba jit'd function. Valid string metrics include: euclidean, manhattan, chebyshev, minkowski, canberra, braycurtis, mahalanobis, wminkowski, seuclidean, cosine, correlation, haversine, hamming, jaccard, dice, russelrao, kulsinski, rogerstanimoto, sokalmichener, sokalsneath, yule. Metrics that take arguments (such as minkowski, mahalanobis etc.) can have arguments passed via the metric_kwds dictionary. At this time care must be taken and dictionary elements must be ordered appropriately; this will hopefully be fixed in the future.}
 
-\item{n_epochs}{numeric. More info to come.}
+\item{n_epochs}{numeric. The number of training epochs to use in optimization.}
 
 \item{alpha}{numeric. The initial learning rate for the embedding optimization.}
 
