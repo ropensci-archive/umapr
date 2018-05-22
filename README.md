@@ -40,13 +40,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1      UMAP2
-#> 1          5.1         3.5          1.4         0.2 -13.23999 -0.7355436
-#> 2          4.9         3.0          1.4         0.2 -12.50639 -2.8071050
-#> 3          4.7         3.2          1.3         0.2 -12.18168 -2.1712356
-#> 4          4.6         3.1          1.5         0.2 -12.40702 -2.5013227
-#> 5          5.0         3.6          1.4         0.2 -13.51378 -0.8766937
-#> 6          5.4         3.9          1.7         0.4 -13.01444  0.3315915
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1    UMAP2
+#> 1          5.1         3.5          1.4         0.2 -10.157832 13.30891
+#> 2          4.9         3.0          1.4         0.2 -11.234146 15.08975
+#> 3          4.7         3.2          1.3         0.2 -10.468727 15.25200
+#> 4          4.6         3.1          1.5         0.2 -10.688461 15.31040
+#> 5          5.0         3.6          1.4         0.2 -10.410932 13.24636
+#> 6          5.4         3.9          1.7         0.4  -9.703505 12.46753
 
 # plot the result
 embedding %>% 
@@ -136,7 +136,7 @@ Comparison to t-SNE and principal components analysis
 
 t-SNE and UMAP are both non-linear dimensionality reduction methods, in contrast to PCA. Because t-SNE is relatively slow, PCA is sometimes run first to reduce the dimensions of the data.
 
-We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in `timings.R`.
+We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in [`timings.R`](timings.R).
 
 The first data set is the same iris data set used above (149 observations of 4 variables):
 
@@ -150,7 +150,7 @@ Third we tried a soybean data set. It is made up of 531 observations and 35 vari
 
 ![t-SNE, PCA, and UMAP on soybeans](img/multiple_algorithms_bean.png)
 
-Finally we used a large single-cell RNAsequencing data set, with 551 observations (cells) of 55000 variables!
+Finally we used a large single-cell RNAsequencing data set, with 561 observations (cells) of 55186 variables (over 30 million elements)!
 
 ![t-SNE, PCA, and UMAP on rna](img/multiple_algorithms_rna.png)
 

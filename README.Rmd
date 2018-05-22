@@ -129,7 +129,7 @@ bind_rows(result, .id = "Metric") %>%
 
 t-SNE and UMAP are both non-linear dimensionality reduction methods, in contrast to PCA. Because t-SNE is relatively slow, PCA is sometimes run first to reduce the dimensions of the data. 
 
-We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in `timings.R`. 
+We compared UMAP to PCA and t-SNE alone, as well as to t-SNE run on data preprocessed with PCA. In each case, the data were subset to include only complete observations. The code to reproduce these findings are available in [`timings.R`](timings.R). 
 
 The first data set is the same iris data set used above (149 observations of 4 variables): 
 
@@ -143,7 +143,7 @@ Third we tried a soybean data set. It is made up of 531 observations and 35 vari
 
 ![t-SNE, PCA, and UMAP on soybeans](img/multiple_algorithms_bean.png)
 
-Finally we used a large single-cell RNAsequencing data set, with 551 observations (cells) of 55000 variables! 
+Finally we used a large single-cell RNAsequencing data set, with 561 observations (cells) of 55186 variables (over 30 million elements)! 
 
 ![t-SNE, PCA, and UMAP on rna](img/multiple_algorithms_rna.png)
 
