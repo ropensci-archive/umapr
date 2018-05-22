@@ -47,13 +47,14 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 head(embedding)
 
 # plot the result
-embedding
+embedding %>% bind_cols(embedding, Species=iris$Species) %>%
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
-The R6 object also includes an `$explore()` method, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ```{r eval=FALSE}
-runShinyApp(embedding)
+run_shiny_app(embedding)
 ```
 
 ## Function parameters
@@ -68,7 +69,7 @@ neighbors <- c(4, 8, 16, 32, 64, 128)
 f <- lapply(neighbors, function(neighbor) {
   iris_result <- umap(as.matrix(iris[,1:4]), n_neighbors = as.integer(neighbor))
  
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- neighbors
@@ -86,7 +87,7 @@ dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), min_dist = dist)
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- dists
@@ -103,7 +104,7 @@ dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), metric = dist)
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- dists

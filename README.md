@@ -35,25 +35,26 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 
 ``` r
 # look at result
-head(embedding$returnData())
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -11.304465 -6.435728
-#> 2          4.9         3.0          1.4         0.2 -10.016889 -5.133350
-#> 3          4.7         3.2          1.3         0.2  -9.601890 -5.617144
-#> 4          4.6         3.1          1.5         0.2  -9.417817 -5.535662
-#> 5          5.0         3.6          1.4         0.2 -10.975148 -6.391550
-#> 6          5.4         3.9          1.7         0.4 -11.949749 -7.529787
+head(embedding)
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 2.957511  8.335669
+#> 2          4.9         3.0          1.4         0.2 3.384224 10.102139
+#> 3          4.7         3.2          1.3         0.2 2.707735 10.105076
+#> 4          4.6         3.1          1.5         0.2 2.701093 10.135371
+#> 5          5.0         3.6          1.4         0.2 2.586803  8.420959
+#> 6          5.4         3.9          1.7         0.4 2.332032  7.262850
 
 # plot the result
-embedding$plot("Petal.Length")
+embedding %>% bind_cols(embedding, Species=iris$Species) %>%
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](img/unnamed-chunk-3-1.png)
 
-The R6 object also includes an `$explore()` method, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ``` r
-embedding$explore()
+run_shiny_app(embedding)
 ```
 
 Function parameters
@@ -69,7 +70,7 @@ neighbors <- c(4, 8, 16, 32, 64, 128)
 f <- lapply(neighbors, function(neighbor) {
   iris_result <- umap(as.matrix(iris[,1:4]), n_neighbors = as.integer(neighbor))
  
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- neighbors
@@ -78,10 +79,9 @@ bind_rows(f, .id = "Neighbor") %>%
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
   facet_wrap(~ Neighbor, scales = "free")
-#> Warning: package 'bindrcpp' was built under R version 3.4.4
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](img/unnamed-chunk-5-1.png)
 
 The `min_dist` argument can range from 0 to 1.
 
@@ -90,7 +90,7 @@ dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), min_dist = dist)
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- dists
@@ -100,7 +100,7 @@ bind_rows(f, .id = "Distance") %>%
   facet_wrap(~ Distance, scales = "free")
 ```
 
-![](README-unnamed-chunk-6-1.png)
+![](img/unnamed-chunk-6-1.png)
 
 The `distance` argument can be a bunch of stuff.
 
@@ -109,7 +109,7 @@ dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), metric = dist)
-  cbind(iris_result$returnData(), Species=iris$Species)
+  cbind(iris_result, Species=iris$Species)
 })
 
 names(f) <- dists
@@ -119,4 +119,4 @@ bind_rows(f, .id = "Metric") %>%
   facet_wrap(~ Metric, scales = "free")
 ```
 
-![](README-unnamed-chunk-7-1.png)
+![](img/unnamed-chunk-7-1.png)
