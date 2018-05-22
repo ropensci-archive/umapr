@@ -62,10 +62,9 @@ test_that("R6 tests",
               colnames(data) <- c(letters[1:10])
               out <- umap(data)
               
-              expect_equal(class(out), "umap_obj")
+              expect_equal(class(out)[1], "umap_obj")
               pl <- out$plot("a")
-              expect_equal()
+              expect_equal(class(pl)[-1], "ggplot")
             
-              
             
           })
