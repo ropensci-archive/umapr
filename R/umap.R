@@ -4,7 +4,7 @@
 #'
 #' @references Leland McInnes and John Healy (2018). UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction. ArXiv e-prints 1802.03426.
 #'
-#' @param data matrix. input data.
+#' @param data data frame or matrix. input data.
 #' @param n_neighbors numeric. The size of local neighborhood (in terms of number of neighboring sample points) used for manifold approximation. Larger values result in more global views of the manifold, while smaller values result in more local data being preserved. In general values should be in the range 2 to 100.
 #' @param n_components numeric. The dimension of the space to embed into. This defaults to 2 to provide easy visualization, but can reasonably be set to any integer value in the range 2 to 100.
 #' @param metric character. The metric to use to compute distances in high dimensional space. If a string is passed it must match a valid predefined metric. If a general metric is required a function that takes two 1d arrays and returns a float can be provided. For performance purposes it is required that this be a numba jit'd function. Valid string metrics include: euclidean, manhattan, chebyshev, minkowski, canberra, braycurtis, mahalanobis, wminkowski, seuclidean, cosine, correlation, haversine, hamming, jaccard, dice, russelrao, kulsinski, rogerstanimoto, sokalmichener, sokalsneath, yule. Metrics that take arguments (such as minkowski, mahalanobis etc.) can have arguments passed via the metric_kwds dictionary. At this time care must be taken and dictionary elements must be ordered appropriately; this will hopefully be fixed in the future.
@@ -35,6 +35,7 @@
 #'
 #' @examples
 #' umap(as.matrix(iris[, 1:4]))
+#' umap(iris[, 1:4])
 umap <- function(data,
                  n_neighbors = 15L,
                  n_components = 2L,
@@ -55,7 +56,7 @@ umap <- function(data,
                  metric_kwds = dict(),
                  angular_rp_forest = FALSE,
                  verbose = FALSE) {
-  assert_that(is.matrix(data))
+  assert_that(is.matrix(data) | is.data.frame(data), msg = "Data must be a data frame or a matrix.")
   if (!all(unlist(lapply(data, is.numeric)))) stop("All columns should be numeric.")
   assert_that(is.number(n_neighbors))
   assert_that(is.number(n_components))
@@ -97,7 +98,7 @@ umap <- function(data,
     metric_kwds = metric_kwds,
     angular_rp_forest = angular_rp_forest,
     verbose = verbose
-  )$fit_transform(data)
+  )$fit_transform(as.matrix(data))
   
   colnames(umap_vec) <- c("UMAP1", "UMAP2")
   
