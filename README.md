@@ -14,28 +14,43 @@ Here is an example of running UMAP on the `iris` data set.
 
 ``` r
 library(umapr)
+library(tidyverse)
+#> Loading tidyverse: ggplot2
+#> Loading tidyverse: tibble
+#> Loading tidyverse: tidyr
+#> Loading tidyverse: readr
+#> Loading tidyverse: purrr
+#> Loading tidyverse: dplyr
+#> Conflicts with tidy packages ----------------------------------------------
+#> filter(): dplyr, stats
+#> lag():    dplyr, stats
 # select only numeric columns
-embedding <- as.data.frame(umap(as.matrix(iris[ , 1:4])))
+embedding <- umap(as.matrix(iris[ , 1:4]))
 
 # look at result
-head(embedding)
-#>           V1        V2
-#> 1 -1.7324369 -5.463769
-#> 2 -2.8849956 -3.761887
-#> 3 -3.6021864 -4.281125
-#> 4 -3.4141524 -4.057291
-#> 5 -1.9330339 -5.352357
-#> 6 -0.6892355 -4.836187
+head(embedding$returnData())
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 12.59556 -11.59737
+#> 2          4.9         3.0          1.4         0.2 11.81534 -13.40666
+#> 3          4.7         3.2          1.3         0.2 11.54976 -12.75958
+#> 4          4.6         3.1          1.5         0.2 11.44540 -12.85110
+#> 5          5.0         3.6          1.4         0.2 12.67529 -11.79392
+#> 6          5.4         3.9          1.7         0.4 13.63238 -11.18265
 
-# plot result
-suppressPackageStartupMessages(library(tidyverse))
-ggplot(embedding, aes(x = V1, y = V2, color = iris$Species)) + 
-  geom_point()
+#plot the result
+embedding$plot("Petal.Length")
 ```
 
 ![](README-unnamed-chunk-2-1.png)
 
-`umap` returns a data frame with two columns containing the UMAP embeddings of the original data and (optionally) the original data attached.
+`umap` returns an R6 object, which contains a data frame two columns called("UMAP1","UMAP2") containing the UMAP embeddings of the original data and the original data attached. To get the actual output as a `data.frame`, use the `$returnData()` method attached to the R6 object.
+
+The R6 object also includes an `$explore()` method, which will bring up a Shiny app for exploring coloring the different variables on the umap plots.
+
+``` r
+
+embedding$explore()
+```
 
 There are a few important parameters. These are fully described in the UMAP Python [documentation](https://github.com/lmcinnes/umap/blob/bf1c3e5c89ea393c9de10bd66c5e3d9bc30588ee/notebooks/UMAP%20usage%20and%20parameters.ipynb).
 
@@ -46,18 +61,19 @@ neighbors <- c(4, 8, 16, 32, 64, 128)
 
 f <- lapply(neighbors, function(neighbor) {
   iris_result <- umap(as.matrix(iris[,1:4]), n_neighbors = as.integer(neighbor))
-  cbind(as.data.frame(iris_result), data.frame(Species = iris$Species))
+ 
+  cbind(iris_result$returnData(), Species=iris$Species)
 })
 
 names(f) <- neighbors
 
 bind_rows(f, .id = "Neighbor") %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
-  ggplot(aes(V1, V2, color = Species)) + geom_point() + 
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
   facet_wrap(~ Neighbor, scales = "free")
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-4-1.png)
 
 The `min_dist` argument can range from 0 to 1.
 
@@ -66,17 +82,17 @@ dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), min_dist = dist)
-  cbind(as.data.frame(iris_result), data.frame(Species = iris$Species))
+  cbind(iris_result$returnData(), Species=iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Distance") %>% 
-  ggplot(aes(V1, V2, color = Species)) + geom_point() + 
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
   facet_wrap(~ Distance, scales = "free")
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-unnamed-chunk-5-1.png)
 
 The `distance` argument can be a bunch of stuff.
 
@@ -85,14 +101,14 @@ dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 f <- lapply(dists, function(dist) {
   iris_result <- umap(as.matrix(iris[,1:4]), metric = dist)
-  cbind(as.data.frame(iris_result), data.frame(Species = iris$Species))
+  cbind(iris_result$returnData(), Species=iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Metric") %>% 
-  ggplot(aes(V1, V2, color = Species)) + geom_point() + 
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
   facet_wrap(~ Metric, scales = "free")
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](README-unnamed-chunk-6-1.png)
