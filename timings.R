@@ -1,6 +1,7 @@
 library(umapr)
 library(Rtsne)
 library(tidyverse)
+library(bench)
 
 # stuff to compare algorithms -------------------------------------------------
 embed <- function(labels, d) {
