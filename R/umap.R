@@ -57,7 +57,7 @@ umap <- function(data,
   if (!is.matrix(data)) stop("`data` should be a matrix.")
   if (!all(unlist(lapply(data, is.numeric)))) stop("All columns should be numeric.")
 
-  umap_module$UMAP(
+  umap_vec <- umap_module$UMAP(
     n_neighbors = n_neighbors,
     n_components = n_components,
     metric = metric,
@@ -78,4 +78,10 @@ umap <- function(data,
     angular_rp_forest = angular_rp_forest,
     verbose = verbose
   )$fit_transform(data)
+  
+  colnames(umap_vec) <- c("UMAP1", "UMAP2")
+  
+  output <- data.frame(cbind(data, umap_vec))
+  
+  make_umap_object(output)
 }

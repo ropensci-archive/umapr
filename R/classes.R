@@ -1,5 +1,5 @@
-library(data.table)
 library(R6)
+library(ggplot2)
 
 umap_obj <- R6Class("umap_obj",
                     public = list(
@@ -9,20 +9,33 @@ umap_obj <- R6Class("umap_obj",
                       plot = function(marker){
                         markers <- self$markers
                         if(!marker %in% markers){stop("marker not in list of markers")}
-                        umap_table <- self$umap_table
-                        ggplot(umap_table, aes_string(x = "UMAP1", y = "UMAP2", color=marker)) +
-                          geom_point()
+                        ggplot2::ggplot(self$umap_table, ggplot2::aes_string(x = "UMAP1", y = "UMAP2", color=marker)) +
+                          ggplot2::geom_point()
                       },
 
                       initialize = function(umap_table, annotation=NULL){
+                        
                         self$umap_table <- umap_table
                         if(!is.null(annotation)){
                             self$annotation = annotation
                         }
-                        markers <- colnames(umap_table)[!colnames(umap) %in% c("UMAP1","UMAP2")]
+                        markers <- colnames(umap_table)[!colnames(umap_table) %in% c("UMAP1","UMAP2")]
+                        
                         self$markers <- markers
-
                         invisible(self)
+                      },
+                      
+                      explore = function(markers=NULL){
+                        runUmapShiny(self)
+                      },
+                      
+                      set_markers = function(markers=NULL){
+                        self$markers 
+                        
+                      },
+                      
+                      returnData = function(){
+                        return(self$umap_table)
                       }
 
                     ))
