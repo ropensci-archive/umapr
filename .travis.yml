@@ -4,4 +4,5 @@ language: R
 sudo: false
 cache: packages
 before_install:
+  - pip install --upgrade pip
   - pip install umap-learn
