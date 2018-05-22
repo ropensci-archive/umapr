@@ -36,8 +36,12 @@ Here is an example of running UMAP on the `iris` data set.
 ```{r message=FALSE, warning=FALSE, fig.width=7}
 library(umapr)
 library(tidyverse)
+
 # select only numeric columns
-embedding <- umap(as.matrix(iris[ , 1:4]))
+df <- iris[ , 1:4]
+
+# run UMAP algorithm
+embedding <- umap(df)
 ```
 
 `umap` returns a `data.frame` with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame. 
@@ -47,7 +51,8 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 head(embedding)
 
 # plot the result
-embedding %>% bind_cols(embedding, Species=iris$Species) %>%
+embedding %>% 
+  bind_cols(embedding, Species = iris$Species) %>%
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
@@ -69,17 +74,18 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
 f <- lapply(neighbors, function(neighbor) {
-  iris_result <- umap(as.matrix(iris[,1:4]), n_neighbors = as.integer(neighbor))
+  iris_result <- umap(iris[, 1:4], n_neighbors = neighbor)
  
-  cbind(iris_result, Species=iris$Species)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- neighbors
 
 bind_rows(f, .id = "Neighbor") %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Neighbor, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Neighbor, scales = "free")
 ```
 
 The `min_dist` argument can range from 0 to 1. 
@@ -88,15 +94,16 @@ The `min_dist` argument can range from 0 to 1.
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 f <- lapply(dists, function(dist) {
-  iris_result <- umap(as.matrix(iris[,1:4]), min_dist = dist)
-  cbind(iris_result, Species=iris$Species)
+  iris_result <- umap(iris[, 1:4], min_dist = dist)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Distance") %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Distance, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Distance, scales = "free")
 ```
 
 The `distance` argument can be a bunch of stuff. 
@@ -105,13 +112,14 @@ The `distance` argument can be a bunch of stuff.
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 f <- lapply(dists, function(dist) {
-  iris_result <- umap(as.matrix(iris[,1:4]), metric = dist)
-  cbind(iris_result, Species=iris$Species)
+  iris_result <- umap(iris[,1:4], metric = dist)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Metric") %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Metric, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Metric, scales = "free")
 ```

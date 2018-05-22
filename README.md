@@ -27,8 +27,12 @@ Here is an example of running UMAP on the `iris` data set.
 ``` r
 library(umapr)
 library(tidyverse)
+
 # select only numeric columns
-embedding <- umap(as.matrix(iris[ , 1:4]))
+df <- iris[ , 1:4]
+
+# run UMAP algorithm
+embedding <- umap(df)
 ```
 
 `umap` returns a `data.frame` with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame.
@@ -36,16 +40,17 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -7.269891 -6.309121
-#> 2          4.9         3.0          1.4         0.2 -9.063141 -7.522633
-#> 3          4.7         3.2          1.3         0.2 -9.126759 -6.816855
-#> 4          4.6         3.1          1.5         0.2 -9.026644 -6.919061
-#> 5          5.0         3.6          1.4         0.2 -7.281242 -5.998964
-#> 6          5.4         3.9          1.7         0.4 -6.115748 -6.303033
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1    UMAP2
+#> 1          5.1         3.5          1.4         0.2 12.92441 4.082702
+#> 2          4.9         3.0          1.4         0.2 11.72879 1.948935
+#> 3          4.7         3.2          1.3         0.2 11.77402 2.604481
+#> 4          4.6         3.1          1.5         0.2 11.68779 2.527600
+#> 5          5.0         3.6          1.4         0.2 12.74414 3.944899
+#> 6          5.4         3.9          1.7         0.4 14.13293 4.326360
 
 # plot the result
-embedding %>% bind_cols(embedding, Species=iris$Species) %>%
+embedding %>% 
+  bind_cols(embedding, Species = iris$Species) %>%
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
@@ -70,17 +75,19 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
 f <- lapply(neighbors, function(neighbor) {
-  iris_result <- umap(as.matrix(iris[,1:4]), n_neighbors = as.integer(neighbor))
+  iris_result <- umap(iris[, 1:4], n_neighbors = neighbor)
  
-  cbind(iris_result, Species=iris$Species)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- neighbors
 
 bind_rows(f, .id = "Neighbor") %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Neighbor, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Neighbor, scales = "free")
+#> Warning: package 'bindrcpp' was built under R version 3.4.4
 ```
 
 ![](img/unnamed-chunk-5-1.png)
@@ -91,15 +98,16 @@ The `min_dist` argument can range from 0 to 1.
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 f <- lapply(dists, function(dist) {
-  iris_result <- umap(as.matrix(iris[,1:4]), min_dist = dist)
-  cbind(iris_result, Species=iris$Species)
+  iris_result <- umap(iris[, 1:4], min_dist = dist)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Distance") %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Distance, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Distance, scales = "free")
 ```
 
 ![](img/unnamed-chunk-6-1.png)
@@ -110,15 +118,16 @@ The `distance` argument can be a bunch of stuff.
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 f <- lapply(dists, function(dist) {
-  iris_result <- umap(as.matrix(iris[,1:4]), metric = dist)
-  cbind(iris_result, Species=iris$Species)
+  iris_result <- umap(iris[,1:4], metric = dist)
+  cbind(iris_result, Species = iris$Species)
 })
 
 names(f) <- dists
 
 bind_rows(f, .id = "Metric") %>% 
-  ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point() + 
-  facet_wrap(~ Metric, scales = "free")
+  ggplot(aes(UMAP1, UMAP2, color = Species)) + 
+    geom_point() + 
+    facet_wrap(~ Metric, scales = "free")
 ```
 
 ![](img/unnamed-chunk-7-1.png)
