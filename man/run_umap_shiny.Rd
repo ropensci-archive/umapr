@@ -2,13 +2,16 @@
 % Please edit documentation in R/umap_app.R
 \name{run_umap_shiny}
 \alias{run_umap_shiny}
-\title{Title}
+\title{Open a shiny app to explore the data in a UMAP embedding.}
 \usage{
-run_umap_shiny(umap_obj)
+run_umap_shiny(umap)
 }
 \arguments{
-\item{markers}{}
+\item{umap}{output of a call to `umap`}
+}
+\value{
+Open an interactive shiny app to explore the data.
 }
 \description{
-Title
+Open a shiny app to explore the data in a UMAP embedding.
 }

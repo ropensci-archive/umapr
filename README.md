@@ -40,13 +40,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1    UMAP2
-#> 1          5.1         3.5          1.4         0.2 -10.157832 13.30891
-#> 2          4.9         3.0          1.4         0.2 -11.234146 15.08975
-#> 3          4.7         3.2          1.3         0.2 -10.468727 15.25200
-#> 4          4.6         3.1          1.5         0.2 -10.688461 15.31040
-#> 5          5.0         3.6          1.4         0.2 -10.410932 13.24636
-#> 6          5.4         3.9          1.7         0.4  -9.703505 12.46753
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1      UMAP2
+#> 1          5.1         3.5          1.4         0.2  -9.211461 -0.5905422
+#> 2          4.9         3.0          1.4         0.2  -6.979179 -1.1421785
+#> 3          4.7         3.2          1.3         0.2  -7.526256 -0.5153928
+#> 4          4.6         3.1          1.5         0.2  -7.223620 -0.5717335
+#> 5          5.0         3.6          1.4         0.2  -9.154005 -0.4008612
+#> 6          5.4         3.9          1.7         0.4 -10.147538 -1.0923567
 
 # plot the result
 embedding %>% 
@@ -56,7 +56,7 @@ embedding %>%
 
 ![](img/unnamed-chunk-3-1.png)
 
-There is a function called `run_shiny_app()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function called `run_umap_shiny()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ``` r
 run_shiny_app(embedding)

@@ -12,7 +12,7 @@ umap(data, n_neighbors = 15L, n_components = 2L, metric = "euclidean",
   angular_rp_forest = FALSE, verbose = FALSE)
 }
 \arguments{
-\item{data}{matrix. input data.}
+\item{data}{data frame or matrix. input data.}
 
 \item{n_neighbors}{numeric. The size of local neighborhood (in terms of number of neighboring sample points) used for manifold approximation. Larger values result in more global views of the manifold, while smaller values result in more local data being preserved. In general values should be in the range 2 to 100.}
 
@@ -63,6 +63,7 @@ Provides an interface to the UMAP algorithm implemented in Python.
 }
 \examples{
 umap(as.matrix(iris[, 1:4]))
+umap(iris[, 1:4])
 }
 \references{
 Leland McInnes and John Healy (2018). UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction. ArXiv e-prints 1802.03426.

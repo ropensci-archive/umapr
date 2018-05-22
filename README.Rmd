@@ -57,7 +57,7 @@ embedding %>%
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
-There is a function called `run_shiny_app()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function called `run_umap_shiny()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ```{r eval=FALSE}
 run_shiny_app(embedding)
