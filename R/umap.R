@@ -30,6 +30,7 @@
 #'
 #' @return matrix
 #' @export
+#' @importFrom assertthat assert_that is.number is.flag
 #' @importFrom reticulate dict
 #'
 #' @examples
@@ -54,12 +55,31 @@ umap <- function(data,
                  metric_kwds = dict(),
                  angular_rp_forest = FALSE,
                  verbose = FALSE) {
-  if (!is.matrix(data)) stop("`data` should be a matrix.")
+  assert_that(is.matrix(data))
   if (!all(unlist(lapply(data, is.numeric)))) stop("All columns should be numeric.")
+  assert_that(is.number(n_neighbors))
+  assert_that(is.number(n_components))
+  assert_that(is.character(metric), msg = "Valid string metrics include: euclidean, manhattan, chebyshev, minkowski, canberra, braycurtis, mahalanobis, wminkowski, seuclidean, cosine, correlation, haversine, hamming, jaccard, dice, russelrao, kulsinski, rogerstanimoto, sokalmichener, sokalsneath, yule.")
+  assert_that(is.null(n_epochs) | is.number(n_epochs))
+  assert_that(is.numeric(alpha))
+  assert_that(is.character(init))
+  assert_that(is.numeric(spread))
+  assert_that(is.numeric(min_dist))
+  assert_that(is.numeric(set_op_mix_ratio))
+  assert_that(is.numeric(local_connectivity))
+  assert_that(is.numeric(bandwidth))
+  assert_that(is.numeric(gamma))
+  assert_that(is.number(negative_sample_rate))
+  assert_that(is.null(a) | is.numeric(a))
+  assert_that(is.null(b) | is.numeric(b))
+  assert_that(is.null(random_state) | is.numeric(random_state))
+  assert_that(is_dict(metric_kwds))
+  assert_that(is.flag(angular_rp_forest))
+  assert_that(is.flag(verbose))
 
   umap_vec <- umap_module$UMAP(
-    n_neighbors = n_neighbors,
-    n_components = n_components,
+    n_neighbors = as.integer(n_neighbors),
+    n_components = as.integer(n_components),
     metric = metric,
     n_epochs = n_epochs,
     alpha = alpha,
@@ -70,7 +90,7 @@ umap <- function(data,
     local_connectivity = local_connectivity,
     bandwidth = bandwidth,
     gamma = gamma,
-    negative_sample_rate = negative_sample_rate,
+    negative_sample_rate = as.integer(negative_sample_rate),
     a = a,
     b = a,
     random_state = random_state,
@@ -84,4 +104,8 @@ umap <- function(data,
   output <- data.frame(cbind(data, umap_vec))
   
   make_umap_object(output)
+}
+
+is_dict <- function(x) {
+  inherits(x, "python.builtin.dict")
 }
