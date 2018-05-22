@@ -23,7 +23,7 @@ Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensional
 
 ## Contributors 
 
-[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas),[Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
+[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas), [Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
 ## Installation
 

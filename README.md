@@ -12,7 +12,7 @@ Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensional
 Contributors
 ------------
 
-[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas),[Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
+[Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas), [Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
 Installation
 ------------
@@ -47,13 +47,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2  -9.267761 -2.644199
-#> 2          4.9         3.0          1.4         0.2  -7.846807 -1.084607
-#> 3          4.7         3.2          1.3         0.2  -7.674437 -1.748850
-#> 4          4.6         3.1          1.5         0.2  -7.692246 -1.518014
-#> 5          5.0         3.6          1.4         0.2  -9.116217 -2.581461
-#> 6          5.4         3.9          1.7         0.4 -10.489628 -2.405052
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 -11.81576 -1.626384
+#> 2          4.9         3.0          1.4         0.2 -12.30168 -3.493116
+#> 3          4.7         3.2          1.3         0.2 -11.70793 -3.174258
+#> 4          4.6         3.1          1.5         0.2 -11.72188 -3.364316
+#> 5          5.0         3.6          1.4         0.2 -11.47955 -1.567784
+#> 6          5.4         3.9          1.7         0.4 -11.59113 -0.545537
 
 # plot the result
 embedding %>% 
