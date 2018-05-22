@@ -31,13 +31,12 @@ umap_obj <- R6Class("umap_obj",
                       
                       set_markers = function(markers=NULL){
                         self$markers 
-                        
+                        invisible(self)
                       },
                       
                       returnData = function(){
                         return(self$umap_table)
                       }
-
                     ))
 
 #' Title
