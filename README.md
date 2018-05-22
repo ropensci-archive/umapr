@@ -29,13 +29,13 @@ embedding <- umap(as.matrix(iris[ , 1:4]))
 
 # look at result
 head(embedding$returnData())
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 12.59556 -11.59737
-#> 2          4.9         3.0          1.4         0.2 11.81534 -13.40666
-#> 3          4.7         3.2          1.3         0.2 11.54976 -12.75958
-#> 4          4.6         3.1          1.5         0.2 11.44540 -12.85110
-#> 5          5.0         3.6          1.4         0.2 12.67529 -11.79392
-#> 6          5.4         3.9          1.7         0.4 13.63238 -11.18265
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1    UMAP2
+#> 1          5.1         3.5          1.4         0.2 3.395519 6.935016
+#> 2          4.9         3.0          1.4         0.2 2.440003 8.695651
+#> 3          4.7         3.2          1.3         0.2 2.033388 8.096085
+#> 4          4.6         3.1          1.5         0.2 1.893995 8.265538
+#> 5          5.0         3.6          1.4         0.2 3.049449 6.708510
+#> 6          5.4         3.9          1.7         0.4 3.919869 5.949295
 
 #plot the result
 embedding$plot("Petal.Length")
