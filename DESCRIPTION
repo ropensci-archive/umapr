@@ -3,7 +3,7 @@ Title: Wraps UMAP Algorithm for Dimension Reduction
 Version: 0.0.0.9000
 Authors@R: c(
     person("Sean", "Hughes", role = "aut"),
-    person("Ted", "Lazeras", role = "aut"),
+    person("Ted", "Laderas", role = "aut"),
     person("Malisa", "Smith", role = "aut"),
     person("Ju Yeong", "Kim", role = "aut"),
     person("Angela", "Li", role = "aut")
