@@ -40,7 +40,7 @@ library(tidyverse)
 embedding <- umap(as.matrix(iris[ , 1:4]))
 ```
 
-`umap` returns an R6 object, which contains a data frame with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame. To get the output as a `data.frame` and not an R6 object, use the `$returnData()` method attached to the R6 object.
+`umap` returns a `data.frame` with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame. 
 
 ```{r}
 # look at result
@@ -51,7 +51,7 @@ embedding %>% bind_cols(embedding, Species=iris$Species) %>%
   ggplot(aes(UMAP1, UMAP2, color = Species)) + geom_point()
 ```
 
-There is a function, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function called `run_shiny_app()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ```{r eval=FALSE}
 run_shiny_app(embedding)

@@ -31,18 +31,18 @@ library(tidyverse)
 embedding <- umap(as.matrix(iris[ , 1:4]))
 ```
 
-`umap` returns an R6 object, which contains a data frame with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame. To get the output as a `data.frame` and not an R6 object, use the `$returnData()` method attached to the R6 object.
+`umap` returns a `data.frame` with two attached columns called "UMAP1" and "UMAP2". These columns represent the UMAP embeddings of the data, which are column-bound to the original data frame.
 
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width      UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -0.6454334 -12.84665
-#> 2          4.9         3.0          1.4         0.2  1.3274510 -13.32654
-#> 3          4.7         3.2          1.3         0.2  1.0582075 -12.62525
-#> 4          4.6         3.1          1.5         0.2  1.1484436 -12.82906
-#> 5          5.0         3.6          1.4         0.2 -0.7188666 -12.55836
-#> 6          5.4         3.9          1.7         0.4 -1.7525203 -11.97780
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 -7.269891 -6.309121
+#> 2          4.9         3.0          1.4         0.2 -9.063141 -7.522633
+#> 3          4.7         3.2          1.3         0.2 -9.126759 -6.816855
+#> 4          4.6         3.1          1.5         0.2 -9.026644 -6.919061
+#> 5          5.0         3.6          1.4         0.2 -7.281242 -5.998964
+#> 6          5.4         3.9          1.7         0.4 -6.115748 -6.303033
 
 # plot the result
 embedding %>% bind_cols(embedding, Species=iris$Species) %>%
@@ -51,7 +51,7 @@ embedding %>% bind_cols(embedding, Species=iris$Species) %>%
 
 ![](img/unnamed-chunk-3-1.png)
 
-There is a function, which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
+There is a function called `run_shiny_app()` which will bring up a Shiny app for exploring different colors of the variables on the umap plots.
 
 ``` r
 run_shiny_app(embedding)
