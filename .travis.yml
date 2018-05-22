@@ -4,4 +4,4 @@ language: R
 sudo: false
 cache: packages
 before_install:
-  - pip install numpy umap
+  - pip install umap-learn
