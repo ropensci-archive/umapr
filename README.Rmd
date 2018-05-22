@@ -57,6 +57,8 @@ There is a function, which will bring up a Shiny app for exploring different col
 run_shiny_app(embedding)
 ```
 
+![img/shiny.png](Shiny App for viewing results)
+
 ## Function parameters
 
 There are a few important parameters. These are fully described in the UMAP Python [documentation](https://github.com/lmcinnes/umap/blob/bf1c3e5c89ea393c9de10bd66c5e3d9bc30588ee/notebooks/UMAP%20usage%20and%20parameters.ipynb). 
