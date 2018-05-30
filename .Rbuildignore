@@ -7,3 +7,4 @@
 ^timings\.R$
 ^img$
 ^LICENSE\.md$
+^appveyor\.yml$
