@@ -49,10 +49,11 @@ umap_obj <- R6Class("umap_obj",
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' library(flowCore)
 #'
 #' umap_table <- umap()
+#' }
 make_umap_object <- function(umap_result, annotation=NULL){
   umapobj <-umap_obj$new(umap_table=umap_result, annotation=annotation)
   return(umapobj)

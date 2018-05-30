@@ -18,8 +18,9 @@ make_umap_object(umap_result, annotation = NULL)
 Title
 }
 \examples{
-
+\dontrun{
 library(flowCore)
 
 umap_table <- umap()
+}
 }
