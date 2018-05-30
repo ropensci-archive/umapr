@@ -6,3 +6,4 @@
 ^README-.*\.png$
 ^timings\.R$
 ^img$
+^LICENSE\.md$
