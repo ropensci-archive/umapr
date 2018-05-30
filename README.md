@@ -3,7 +3,7 @@
 umapr
 =====
 
-[![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr)
+[![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/juyeongkim/umapr?branch=master&svg=true)](https://ci.appveyor.com/project/juyeongkim/umapr) [![codecov](https://codecov.io/gh/ropenscilabs/umapr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/umapr)
 
 `umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R. It uses the great [`reticulate`](https://cran.r-project.org/web/packages/reticulate/index.html) package.
 
@@ -47,13 +47,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1      UMAP2
-#> 1          5.1         3.5          1.4         0.2 -8.707366 -0.9523448
-#> 2          4.9         3.0          1.4         0.2 -6.524377 -1.3547480
-#> 3          4.7         3.2          1.3         0.2 -7.025969 -1.6688777
-#> 4          4.6         3.1          1.5         0.2 -6.884869 -1.5875089
-#> 5          5.0         3.6          1.4         0.2 -8.497713 -0.8022694
-#> 6          5.4         3.9          1.7         0.4 -9.736559 -0.5502499
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1     UMAP2
+#> 1          5.1         3.5          1.4         0.2 3.667062 -13.19943
+#> 2          4.9         3.0          1.4         0.2 5.517850 -14.18564
+#> 3          4.7         3.2          1.3         0.2 4.881974 -14.64425
+#> 4          4.6         3.1          1.5         0.2 5.004181 -14.45688
+#> 5          5.0         3.6          1.4         0.2 3.841503 -13.11696
+#> 6          5.4         3.9          1.7         0.4 3.320901 -12.31876
 
 # plot the result
 embedding %>% 
