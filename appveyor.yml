@@ -7,8 +7,8 @@ environment:
   USE_RTOOLS: true
   PATH: "%PATH%;C:\\MinGW\\bin;C:\\MinGW\\msys\\1.0;C:\\MinGW\\msys\\1.0\\bin"
   matrix:
-    - PYTHON: "C:\\Python27"
-      RETICULATE_PYTHON: "C:\\Python27"
+#    - PYTHON: "C:\\Python27"
+#      RETICULATE_PYTHON: "C:\\Python27"
     - PYTHON: "C:\\Python34"
       RETICULATE_PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
