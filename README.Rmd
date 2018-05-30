@@ -27,14 +27,14 @@ Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensional
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/) with:
+**First**, you will need to install `Python` and the `UMAP` package. Instruction available [here](https://github.com/lmcinnes/umap#installing).
+
+Then, you can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("ropenscilabs/umapr")
 ```
-
-You will also need to install Python and the UMAP package, available [here](https://github.com/lmcinnes/umap).
 
 ## Basic use
 
@@ -142,3 +142,9 @@ PCA is orders of magnitude faster than t-SNE or UMAP (not shown). UMAP, though, 
 ![Time to run t-SNE vs UMAP](img/multiple_algorithms_time.png)
 
 ![Memory to run t-SNE vs UMAP](img/multiple_algorithms_memory.png)
+
+## Related projects
+
+* [`umap`](https://github.com/tkonopka/umap): R implementation of UMAP
+* [`seurat`](https://github.com/satijalab/seurat): R toolkit for single cell genomics
+* [`smallvis`](https://github.com/jlmelville/smallvis): R package for dimensionality reduction of small datasets

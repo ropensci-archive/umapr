@@ -17,14 +17,14 @@ Contributors
 Installation
 ------------
 
-You can install the development version from [GitHub](https://github.com/) with:
+**First**, you will need to install `Python` and the `UMAP` package. Instruction available [here](https://github.com/lmcinnes/umap#installing).
+
+Then, you can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("ropenscilabs/umapr")
 ```
-
-You will also need to install Python and the UMAP package, available [here](https://github.com/lmcinnes/umap).
 
 Basic use
 ---------
@@ -47,13 +47,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 -11.81576 -1.626384
-#> 2          4.9         3.0          1.4         0.2 -12.30168 -3.493116
-#> 3          4.7         3.2          1.3         0.2 -11.70793 -3.174258
-#> 4          4.6         3.1          1.5         0.2 -11.72188 -3.364316
-#> 5          5.0         3.6          1.4         0.2 -11.47955 -1.567784
-#> 6          5.4         3.9          1.7         0.4 -11.59113 -0.545537
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width     UMAP1      UMAP2
+#> 1          5.1         3.5          1.4         0.2 -8.707366 -0.9523448
+#> 2          4.9         3.0          1.4         0.2 -6.524377 -1.3547480
+#> 3          4.7         3.2          1.3         0.2 -7.025969 -1.6688777
+#> 4          4.6         3.1          1.5         0.2 -6.884869 -1.5875089
+#> 5          5.0         3.6          1.4         0.2 -8.497713 -0.8022694
+#> 6          5.4         3.9          1.7         0.4 -9.736559 -0.5502499
 
 # plot the result
 embedding %>% 
@@ -150,3 +150,10 @@ PCA is orders of magnitude faster than t-SNE or UMAP (not shown). UMAP, though, 
 ![Time to run t-SNE vs UMAP](img/multiple_algorithms_time.png)
 
 ![Memory to run t-SNE vs UMAP](img/multiple_algorithms_memory.png)
+
+Related projects
+----------------
+
+-   [`umap`](https://github.com/tkonopka/umap): R implementation of UMAP
+-   [`seurat`](https://github.com/satijalab/seurat): R toolkit for single cell genomics
+-   [`smallvis`](https://github.com/jlmelville/smallvis): R package for dimensionality reduction of small datasets
