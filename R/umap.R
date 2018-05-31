@@ -153,7 +153,7 @@ umap <- function(data,
     verbose = verbose
   )$fit_transform(as.matrix(data))
   
-  colnames(umap_vec) <- c("UMAP1", "UMAP2")
+  colnames(umap_vec) <- paste0("UMAP", seq_len(ncol(umap_vec)))
   
   output <- data.frame(cbind(data, umap_vec))
   
