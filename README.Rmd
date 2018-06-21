@@ -27,6 +27,8 @@ Uniform Manifold Approximation and Projection (UMAP) is a non-linear dimensional
 
 [Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas), [Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
+`umapr` is a project that was first developed at [rOpenSci Unconf 2018](http://unconf18.ropensci.org).
+
 ## Installation
 
 **First**, you will need to install `Python` and the `UMAP` package. Instruction available [here](https://github.com/lmcinnes/umap#installing).
@@ -47,7 +49,7 @@ library(umapr)
 library(tidyverse)
 
 # select only numeric columns
-df <- iris[ , 1:4]
+df <- as.matrix(iris[ , 1:4])
 
 # run UMAP algorithm
 embedding <- umap(df)
@@ -82,8 +84,10 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ```{r fig.width=7}
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
+
+
 neighbors %>% 
-  map_df(~umap(iris[,1:4], n_neighbors = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), n_neighbors = .x) %>% 
       mutate(Species = iris$Species, Neighbor = .x)) %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
@@ -97,7 +101,7 @@ The `min_dist` argument can range from 0 to 1.
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 dists %>% 
-  map_df(~umap(iris[,1:4], min_dist = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), min_dist = .x) %>% 
       mutate(Species = iris$Species, Distance = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
@@ -110,7 +114,7 @@ The `distance` argument can be many different distance functions.
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 dists %>% 
-  map_df(~umap(iris[,1:4], metric = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), metric = .x) %>% 
       mutate(Species = iris$Species, Metric = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 

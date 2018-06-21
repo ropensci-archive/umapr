@@ -14,6 +14,8 @@ Contributors
 
 [Angela Li](https://github.com/angela-li), [Ju Kim](https://github.com/juyeongkim), [Malisa Smith](https://github.com/malisas), [Sean Hughes](https://github.com/seaaan), [Ted Laderas](https://github.com/laderast)
 
+`umapr` is a project that was first developed at [rOpenSci Unconf 2018](http://unconf18.ropensci.org).
+
 Installation
 ------------
 
@@ -36,7 +38,7 @@ library(umapr)
 library(tidyverse)
 
 # select only numeric columns
-df <- iris[ , 1:4]
+df <- as.matrix(iris[ , 1:4])
 
 # run UMAP algorithm
 embedding <- umap(df)
@@ -47,13 +49,13 @@ embedding <- umap(df)
 ``` r
 # look at result
 head(embedding)
-#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1     UMAP2
-#> 1          5.1         3.5          1.4         0.2 3.667062 -13.19943
-#> 2          4.9         3.0          1.4         0.2 5.517850 -14.18564
-#> 3          4.7         3.2          1.3         0.2 4.881974 -14.64425
-#> 4          4.6         3.1          1.5         0.2 5.004181 -14.45688
-#> 5          5.0         3.6          1.4         0.2 3.841503 -13.11696
-#> 6          5.4         3.9          1.7         0.4 3.320901 -12.31876
+#>   Sepal.Length Sepal.Width Petal.Length Petal.Width    UMAP1    UMAP2
+#> 1          5.1         3.5          1.4         0.2 4.154255 8.192322
+#> 2          4.9         3.0          1.4         0.2 6.141357 8.166989
+#> 3          4.7         3.2          1.3         0.2 5.903502 8.834743
+#> 4          4.6         3.1          1.5         0.2 6.018407 8.751787
+#> 5          5.0         3.6          1.4         0.2 4.383788 8.376906
+#> 6          5.4         3.9          1.7         0.4 2.853383 8.396043
 
 # plot the result
 embedding %>% 
@@ -81,8 +83,10 @@ The `n_neighbor` argument can range from 2 to n-1 where n is the number of rows 
 ``` r
 neighbors <- c(4, 8, 16, 32, 64, 128)
 
+
+
 neighbors %>% 
-  map_df(~umap(iris[,1:4], n_neighbors = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), n_neighbors = .x) %>% 
       mutate(Species = iris$Species, Neighbor = .x)) %>% 
   mutate(Neighbor = as.integer(Neighbor)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
@@ -98,7 +102,7 @@ The `min_dist` argument can range from 0 to 1.
 dists <- c(0.001, 0.01, 0.05, 0.1, 0.5, 0.99)
 
 dists %>% 
-  map_df(~umap(iris[,1:4], min_dist = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), min_dist = .x) %>% 
       mutate(Species = iris$Species, Distance = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
@@ -113,7 +117,7 @@ The `distance` argument can be many different distance functions.
 dists <- c("euclidean", "manhattan", "canberra", "cosine", "hamming", "dice")
 
 dists %>% 
-  map_df(~umap(iris[,1:4], metric = .x) %>% 
+  map_df(~umap(as.matrix(iris[,1:4]), metric = .x) %>% 
       mutate(Species = iris$Species, Metric = .x)) %>% 
   ggplot(aes(UMAP1, UMAP2, color = Species)) + 
     geom_point() + 
