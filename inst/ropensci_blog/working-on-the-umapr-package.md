@@ -46,7 +46,10 @@ Final Results: Get `umapr`
 
 `umapr` is in the `ropenscilabs` organization, and can be installed with the following commands, [after the python modules are installed](https://github.com/lmcinnes/umap#installing).
 
-`{r eval=FALSE} install.packages("devtools") devtools::install_github("ropenscilabs/umapr")`
+```
+install.packages("devtools") 
+devtools::install_github("ropenscilabs/umapr")
+```
 
 As a group, we learned a lot by building the `umapr` package, including specifics of package building, documentation using roxygen, and building unit tests using `testthat` and automating testing using Appveyor and Travis-CI. In the future, we plan to implement the UMAP algorithm in C++ in order to make it accessible to more languages.
 
