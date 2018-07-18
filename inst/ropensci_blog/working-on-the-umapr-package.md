@@ -9,6 +9,8 @@ Motivation
 
 > Note: At the time of the unconference, we were unaware that a similar package called `umap` existed and has implemented the algorithm in R. It's in the process of being submitted to CRAN. We don't want to steal their thunder.
 
+A few weeks ago, as part of the [rOpenSci Unconference](http://unconf18.ropensci.org), a group of us (Sean Hughes, Malisa Smith, Angela Li, Ju Kim, and Ted Laderas) decided to work on making the UMAP algorithm accessible within R. UMAP (Uniform Manifold Approximation and Projection) is a dimensionality reduction technique that allows the user to reduce high dimensional data (multiple columns) into a smaller number of columns for visualization purposes ([github](https://github.com/lmcinnes/umap), [arxiv](https://arxiv.org/abs/1802.03426)). It is similar to both Principal Components Analysis (PCA) and t-SNE, which are techniques often used in the single-cell omics world to visualize high dimensional data. t-SNE is actually quite a slow algorithm; one of the advantages of UMAP is that it runs faster than t-SNE. Because the `data.frames` that are typically run with these algorithms can run into millions of rows, efficiency is important.
+
 A few weeks ago, as part of the [rOpenSci Unconference](http://unconf18.ropensci.org), a group of us (Sean Hughes, Malisa Smith, Angela Li, Ju Kim, and Ted Laderas) decided to work on making the UMAP algorithm accessible within R. We had been introduced to each other before the unconference, and it turns out that we all work with flow cytometry data and that it would be fun to work on a project together. UMAP (Uniform Manifold Approximation and Projection) is a dimensionality reduction technique that allows the user to reduce high dimensional data (multiple columns) into a smaller number of columns for visualization purposes ([github](https://github.com/lmcinnes/umap), [arxiv](https://arxiv.org/abs/1802.03426)). It is related to both Principle Component Analysis (PCA) and t-SNE, which are techniques often used to visualize high dimensional data, such as single cell sequencing or expression data.
 
 t-SNE is actually quite a slow algorithm; one of the advantages of UMAP is that it actually runs faster than t-SNE. Because the `data.frames` that are typically run with these algorithms can run into millions of rows, efficiency is important.
@@ -21,7 +23,7 @@ We decided to start working on the `umapr` package to make this technique access
 
 > My thought is that the ideal would be a package focused on UMAP specifically, implemented in R or Rcpp. Unfortunately I am not at all an expert in this topic or familiar with the mathematics involved, so the best I would be able to do is try to translate the Python implementation into R.
 
-We all met at the unconference the first day and decided that this was a project worth working on. Since TSNE is so used in the single cell and flow-cytometry community, we thought that having an alternative that was just as good, but faster to run would be helpful.
+We all met at the unconference the first day and decided that this was a project worth working on. Since t-SNE is so used in the single cell and flow-cytometry community, we thought that having an alternative that was just as good, but faster to run would be helpful.
 
 Making a Development Plan
 -------------------------
@@ -33,7 +35,7 @@ Learning about Package Building, Testing, and Documentation
 
 Although our package only really has one main function (`umap()`), we felt it was important to have good documentation and unit tests. We spent some time learning about `roxygen` for function documentation and `testthat` for unit testing, and setting up our package with Travis-CI for continuous integration testing. This included unit tests on each argument and including examples varying the essential parameters.
 
-We used a lot of time learning more about the specifics of package building and vignette building in R. We were definitely excited by all of the available tools and built a vignette profiling the performance of the UMAP algorithm versus other dimensionality reduction techniques, such as TSNE.
+We spent a lot of time learning more about the specifics of package building and vignette building in R. We were definitely excited by all of the available tools and built a vignette profiling the performance of the UMAP algorithm versus other dimensionality reduction techniques, such as TSNE.
 
 Profiling `umapr` using different datasets
 ------------------------------------------
@@ -57,6 +59,9 @@ Final Results: Get `umapr`
 
 `umapr` is currently available in the `ropenscilabs` organization, and can be installed with the following commands, [after the python modules are installed](https://github.com/lmcinnes/umap#installing).
 
-`{r eval=FALSE} install.packages("devtools") devtools::install_github("ropenscilabs/umapr")`
+```
+install.packages("devtools") 
+devtools::install_github("ropenscilabs/umapr")
+```
 
 As a group, we learned a lot by building the `umapr` package. More importantly, I think we'll work together on future projects. It was great to work together, and we are talking about having a hackathon between our multiple groups to improve some current open source flow cytometry tools. This was a really fun project and we're excited to do more!
