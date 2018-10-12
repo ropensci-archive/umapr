@@ -180,7 +180,7 @@ umap <- function(data,
           verbose = verbose
         )$fit_transform(as.matrix(data))
       } else {
-        throw(e)
+        stop(e)
       }
     }
   )
