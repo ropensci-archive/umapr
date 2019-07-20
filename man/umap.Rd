@@ -18,6 +18,8 @@ umap(data, include_input = TRUE, n_neighbors = 15L,
 \arguments{
 \item{data}{data frame or matrix. input data.}
 
+\item{include_input}{logical. Attach input data to UMAP embeddings if desired.}
+
 \item{n_neighbors}{integer. The size of local neighborhood
 (in terms of number of neighboring sample points) used for manifold
 approximation. Larger values result in more global views of the manifold,

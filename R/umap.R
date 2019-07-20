@@ -7,6 +7,7 @@
 #' ArXiv e-prints 1802.03426.
 #'
 #' @param data data frame or matrix. input data.
+#' @param include_input logical. Attach input data to UMAP embeddings if desired.
 #' @param n_neighbors integer. The size of local neighborhood
 #' (in terms of number of neighboring sample points) used for manifold
 #' approximation. Larger values result in more global views of the manifold,
@@ -110,7 +111,8 @@
 #' @return matrix
 #' @export
 #' @importFrom assertthat assert_that is.count is.flag
-#' @importFrom reticulate dict
+#' @importFrom methods is as
+#' @importFrom reticulate dict r_to_py
 #'
 #' @examples
 #' umap(as.matrix(iris[, 1:4]))
@@ -146,6 +148,7 @@ umap <- function(data,
                  verbose = FALSE) {
   assert_that(is.matrix(data) | is.data.frame(data), msg = "Data must be a data frame or a matrix.")
   if (!all(unlist(lapply(data, is.numeric)))) stop("All columns should be numeric.")
+  assert_that(is.logical(include_input))
   assert_that(is.count(n_neighbors))
   assert_that(is.count(n_components))
   assert_that(is.character(metric), msg = "Valid string metrics include: euclidean, manhattan, chebyshev, minkowski, canberra, braycurtis, mahalanobis, wminkowski, seuclidean, cosine, correlation, haversine, hamming, jaccard, dice, russelrao, kulsinski, rogerstanimoto, sokalmichener, sokalsneath, yule.")
@@ -178,54 +181,54 @@ umap <- function(data,
   # python library, try running it both ways in case of failure
   umap_vec <- tryCatch(
     umap_module$UMAP(
-      n_neighbors = r_to_py(as.integer(n_neighbors)),
-      n_components = r_to_py(as.integer(n_components)),
-      metric = r_to_py(metric),
-      n_epochs = r_to_py(n_epochs),
-      learning_rate = r_to_py(as.numeric(learning_rate)),
-      init = r_to_py(init),
-      min_dist = r_to_py(as.numeric(min_dist)),
-      spread = r_to_py(as.numeric(spread)),
-      set_op_mix_ratio = r_to_py(as.numeric(set_op_mix_ratio)),
-      local_connectivity = r_to_py(as.integer(local_connectivity)),
-      repulsion_strength = r_to_py(as.numeric(repulsion_strength)),
-      negative_sample_rate = r_to_py(as.integer(negative_sample_rate)),
-      transform_queue_size = r_to_py(as.numeric(transform_queue_size)),
-      a = r_to_py(a),
-      b = r_to_py(b),
-      random_state = r_to_py(random_state),
+      n_neighbors = as.integer(n_neighbors),
+      n_components = as.integer(n_components),
+      metric = metric,
+      n_epochs = n_epochs,
+      alpha = alpha,
+      init = init,
+      spread = spread,
+      min_dist = min_dist,
+      set_op_mix_ratio = set_op_mix_ratio,
+      local_connectivity = local_connectivity,
+      bandwidth = bandwidth,
+      gamma = r_to_py(gamma),
+      negative_sample_rate = as.integer(negative_sample_rate),
+      a = a,
+      b = b,
+      random_state = random_state,
       metric_kwds = metric_kwds,
-      angular_rp_forest = r_to_py(angular_rp_forest),
-      target_n_neighbors = as.integer(target_n_neighbors),
-      target_metric = r_to_py(target_metric),
-      target_metric_kwds = target_metric_kwds,
-      target_weight =  r_to_py(target_weight),
-      transform_seed = r_to_py(as.integer(transform_seed)),
-      verbose = r_to_py(verbose)
-    )$fit_transform(r_to_py(as.matrix(data))),
+      angular_rp_forest = angular_rp_forest,
+      verbose = verbose
+    )$fit_transform(as.matrix(data)),
     error = function(e) {
-      if (grepl("initial_alpha", e$message)) {
+      if (grepl("alpha", e$message)) {
         umap_module$UMAP(
-          n_neighbors = as.integer(n_neighbors),
-          n_components = as.integer(n_components),
-          metric = metric,
-          n_epochs = n_epochs,
-          alpha = alpha,
-          init = init,
-          spread = spread,
-          min_dist = min_dist,
-          set_op_mix_ratio = set_op_mix_ratio,
-          local_connectivity = local_connectivity,
-          bandwidth = bandwidth,
-          gamma = gamma,
-          negative_sample_rate = as.integer(negative_sample_rate),
-          a = a,
-          b = b,
-          random_state = random_state,
-          metric_kwds = metric_kwds,
-          angular_rp_forest = angular_rp_forest,
-          verbose = verbose
-        )$fit_transform(as.matrix(data))
+          n_neighbors = r_to_py(as.integer(n_neighbors)),
+          n_components = r_to_py(as.integer(n_components)),
+          metric = r_to_py(metric),
+          n_epochs = r_to_py(n_epochs),
+          learning_rate = r_to_py(as.numeric(learning_rate)),
+          init = r_to_py(init),
+          min_dist = r_to_py(as.numeric(min_dist)),
+          spread = r_to_py(as.numeric(spread)),
+          set_op_mix_ratio = r_to_py(as.numeric(set_op_mix_ratio)),
+          local_connectivity = r_to_py(as.integer(local_connectivity)),
+          repulsion_strength = r_to_py(as.numeric(repulsion_strength)),
+          negative_sample_rate = r_to_py(as.integer(negative_sample_rate)),
+          transform_queue_size = r_to_py(as.numeric(transform_queue_size)),
+          a = r_to_py(a),
+          b = r_to_py(b),
+          random_state = r_to_py(random_state),
+          metric_kwds = r_to_py(metric_kwds),
+          angular_rp_forest = r_to_py(angular_rp_forest),
+          target_n_neighbors = as.integer(target_n_neighbors),
+          target_metric = r_to_py(target_metric),
+          target_metric_kwds = r_to_py(target_metric_kwds),
+          target_weight =  r_to_py(target_weight),
+          transform_seed = r_to_py(as.integer(transform_seed)),
+          verbose = r_to_py(verbose)
+        )$fit_transform(r_to_py(as.matrix(data)))
       } else {
         stop(e)
       }
@@ -246,4 +249,34 @@ umap <- function(data,
 
 is_dict <- function(x) {
   inherits(x, "python.builtin.dict")
+}
+
+# global reference to umap (will be initialized in .onLoad)
+umap_module <- NULL
+
+.onLoad <- function(libname, pkgname) {
+  # use superassignment to update global reference to umap
+  if(reticulate::py_available()){
+    use_condaenv("r-reticulate")
+    install_python_modules <- function(method = "auto", conda = "auto") {
+      reticulate::py_install("umap-learn", method = method, conda = conda)
+    }
+    if (suppressWarnings(suppressMessages(requireNamespace("reticulate")))) {
+      modules <- reticulate::py_module_available("umap")
+      if (modules) {
+        ## assignment in parent environment!
+        umap_module <<- reticulate::import("umap", delay_load = TRUE)
+        packageStartupMessage("umap-learn python module loaded successfully")
+      } else {
+        install_python_modules()
+        packageStartupMessage("Warning message:
+umap-learn python module not installed")
+      }
+    }
+  } else {
+    packageStartupMessage("Warning message:
+Python not installed
+Please install anaconda or miniconda
+https://conda.io/projects/conda/en/latest/user-guide/install/index.html")
+  }
 }
