@@ -181,6 +181,24 @@ umap <- function(data,
   # keyword "alpha" was renamed "initial_alpha" in a later version of the
   # python library, try running it both ways in case of failure
   
+  
+  modules <- reticulate::py_module_available("umap")
+  if(!modules){
+    install_python_modules <- function(method = "auto", conda = "auto") {
+      reticulate::py_install("umap-learn", method = method, conda = conda)
+    }
+    tryCatch(install_python_modules(), 
+             error = function(e) {
+               modules <- FALSE
+             },
+             finally = "umap-learn installed")
+    modules <- reticulate::py_module_available("umap")
+  } else {
+    print("umap-learn already installed")
+  }
+  
+  umap_module <- reticulate::import("umap")
+  
   umap_vec <- tryCatch(
     umap_module$UMAP(
       n_neighbors = as.integer(n_neighbors),
