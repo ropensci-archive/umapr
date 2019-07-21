@@ -1,52 +1,60 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: python
+language: R
+sudo: true
+cache: packages
+
+os:
+  - linux
+  #- os: osx
+    #osx_image: xcode10.1
+    #disable_homebrew: true
+    #r_build_args: '--no-build-vignettes'
+    #r_check_args: '--ignore-vignettes --no-examples'
+
+addons:
+  apt:
+    #sources:
+    #  - ubuntu-toolchain-r-test
+    packages:
+      - libpython-dev
+      - libpython3-dev
+      - texlive-full
+      - cmake
+      - python3
+  #homebrew:
+    #packages:
+      #- libpython-dev
+      #- libpython3-dev
+      #- texlive-full
+      #- cmake
+      #- python3
+    #update: true
+
+r:
+  - release
+  - devel
+
+r-packages:
+  - reticulate
+  - knitr
+  - testthat
+  - RColorBrewer
+
+env:
+  global:
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual --ignore-vignettes --no-examples"
+    - R_BUILD_ARGS="--no-build-vignettes"
+
 python:
-  # We don't actually use the Travis Python, but this keeps it organized.
-  - "2.7"
   - "3.5"
   - "3.6"
-before_install
+  - "3.7"
+
+before_install:
+  - chmod +x travis_setup.sh
+  - ./travis_setup.sh
+  - pip install --user conda
   - pip install --user umap-learn
-  - sudo apt-get update
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  # Useful for debugging any issues with conda
-  - conda info -a
 
-  # Replace dep1 dep2 ... with your dependencies
-  - conda install -y -c conda-forge umap-learn
-  - conda init bash 
-  - source ~/.bashrc
-  - conda create -y -q -n r-reticulate -c conda-forge umap-learn python=$TRAVIS_PYTHON_VERSION
-  - conda activate r-reticulate
-
-
-language: R
-sudo: false
-cache: packages
-r_packages:
-  - covr
-  - reticulate
-  - shiny
-  - R6
-  - ggplot2
-  - tidyverse
-  - assertthat
-  - testthat
-  - knitr
-  - rmarkdown
-
-
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+warnings_are_errors: false
