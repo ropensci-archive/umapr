@@ -293,5 +293,7 @@ https://conda.io/projects/conda/en/latest/user-guide/install/index.html")
 }
 
 .onAttach <- function(libname, pkgname) {
+  if(reticulate::py_available()){
   umap_module <<- reticulate::import("umap")
+  }
 }
