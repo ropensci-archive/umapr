@@ -38,10 +38,12 @@ install:
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%" 
   - conda config --set always_yes yes --set changeps1 no 
   - conda update -q conda 
+  - conda init powershell
   - conda info -a 
   - conda config --add channels bashtage 
   - conda install -y -c conda-forge umap-learn 
   - conda create -y -q -n r-test -c conda-forge umap-learn numpy python=%PYTHON_VERSION%
+  - conda init powershell
   - conda activate r-reticulate
   - pip install --user umap-learn
   - ps: Bootstrap
