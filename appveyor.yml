@@ -43,6 +43,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no 
   - conda update -q conda 
   - conda info -a 
+  - conda install -c pscondaenvs pscondaenvs
   - conda config --add channels bashtage 
   - conda install -y -c conda-forge umap-learn 
   - conda create -y -q -n r-test -c conda-forge umap-learn numpy python=%PYTHON_VERSION%

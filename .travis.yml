@@ -26,7 +26,7 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda install -y -c conda-forge umap-learn
   - conda init bash 
-  - bash
+  - source ~/.bashrc
   - conda create -y -q -n r-test -c conda-forge umap-learn python=$TRAVIS_PYTHON_VERSION
   - conda activate r-reticulate
   - python setup.py install
