@@ -5,6 +5,7 @@ image: Visual Studio 2015
 environment:
   NOT_CRAN: true
   USE_RTOOLS: true
+  KEEP_VIGNETTES: false
   PATH: "%PATH%;C:\\MinGW\\bin;C:\\MinGW\\msys\\1.0;C:\\MinGW\\msys\\1.0\\bin"
   matrix:
 #    - PYTHON: "C:\\Python27"
@@ -37,19 +38,6 @@ init:
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
   - "ECHO %PYTHON_VERSION% %MINICONDA%"
-
-r_packages:
-  - covr
-  - reticulate
-  - shiny
-  - R6
-  - ggplot2
-  - tidyverse
-  - assertthat
-  - testthat
-  - knitr
-  - rmarkdown
-
 
 install: 
   - set PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%;
