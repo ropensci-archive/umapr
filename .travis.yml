@@ -39,6 +39,15 @@ before_install:
 r_packages:
   - covr
   - reticulate
+  - shiny
+  - R6
+  - ggplot2
+  - tidyverse
+  - assertthat
+  - testthat
+  - knitr
+  - rmarkdown
+
 
 after_success:
   - Rscript -e 'library(covr); codecov()'

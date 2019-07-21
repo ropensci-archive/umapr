@@ -38,6 +38,19 @@ init:
         Import-Module '..\appveyor-tool.ps1'
   - "ECHO %PYTHON_VERSION% %MINICONDA%"
 
+r_packages:
+  - covr
+  - reticulate
+  - shiny
+  - R6
+  - ggplot2
+  - tidyverse
+  - assertthat
+  - testthat
+  - knitr
+  - rmarkdown
+
+
 install: 
   - set PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%;
   - conda config --set always_yes yes --set changeps1 no 
