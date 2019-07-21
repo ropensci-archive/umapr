@@ -18,12 +18,11 @@ LazyData: true
 Imports:
     reticulate,
     shiny,
-    R6,
     ggplot2,
-    tidyverse,
     assertthat
 Suggests:
     testthat,
+    tidyverse,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
