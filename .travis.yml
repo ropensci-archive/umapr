@@ -26,7 +26,7 @@ install:
   # Replace dep1 dep2 ... with your dependencies
   - conda install -y -c conda-forge umap-learn
   - conda create -q -n r-reticulate python=$TRAVIS_PYTHON_VERSION umap-learn
-  - source activate r-reticulate
+  - conda activate r-reticulate
   - python setup.py install
 
 
@@ -34,7 +34,6 @@ language: R
 sudo: false
 cache: packages
 before_install:
-  - conda activate r-reticulate
   - pip install -y --user umap-learn
 r_packages:
   - covr

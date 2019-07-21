@@ -23,12 +23,10 @@ matrix:
 
 # Download script file from GitHub
 init:
-  ps: |
+  - ps: |
         $ErrorActionPreference = "Stop"
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
-
-init: 
   - "ECHO %PYTHON_VERSION% %MINICONDA%"
 
 install: 
@@ -41,9 +39,7 @@ install:
   - "conda create -q -n r-reticulate python=%PYTHON_VERSION% numpy umap-learn" 
   - activate r-reticulate
   - pip install -y --user umap-learn
-
-install:
-  ps: Bootstrap
+  - ps: Bootstrap
 
 cache:
   - C:\RLibrary
