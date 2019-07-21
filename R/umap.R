@@ -114,6 +114,8 @@
 #' @importFrom reticulate dict r_to_py
 #'
 #' @examples
+#' #import umap library (and load python module)
+#' library("umapr")
 #' umap(as.matrix(iris[, 1:4]))
 #' umap(iris[, 1:4])
 umap <- function(data,
@@ -265,7 +267,7 @@ umap_module <<- NULL
       }
       tryCatch(install_python_modules(), 
                error = function(e) {
-                 stop(e)
+                 modules <- FALSE
                },
               finally = "umap-learn installed")
       modules <- reticulate::py_module_available("umap")
