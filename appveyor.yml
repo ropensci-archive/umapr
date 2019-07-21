@@ -42,7 +42,6 @@ install:
   - set PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%;
   - conda config --set always_yes yes --set changeps1 no 
   - conda update -q conda 
-  - conda init powershell
   - conda info -a 
   - conda config --add channels bashtage 
   - conda install -y -c conda-forge umap-learn 
