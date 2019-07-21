@@ -9,12 +9,14 @@ environment:
   matrix:
 #    - PYTHON: "C:\\Python27"
 #      RETICULATE_PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python34"
-      RETICULATE_PYTHON: "C:\\Python34"
-    - PYTHON: "C:\\Python35"
-      RETICULATE_PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python37"
+      RETICULATE_PYTHON: "C:\\Python37"
     - PYTHON: "C:\\Python36"
       RETICULATE_PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python35"
+      RETICULATE_PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python34"
+      RETICULATE_PYTHON: "C:\\Python34"
 
 matrix:
   fast_finish: true
@@ -35,6 +37,7 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip"
   - "%PYTHON%\\python.exe -m pip install setuptools numpy umap-learn"
   - travis-tool.sh install_deps
 
