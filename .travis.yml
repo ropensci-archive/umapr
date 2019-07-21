@@ -34,7 +34,7 @@ language: R
 sudo: false
 cache: packages
 before_install:
-  - pip install -y --user umap-learn
+  - pip install --user umap-learn
 r_packages:
   - covr
   - reticulate

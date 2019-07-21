@@ -9,14 +9,19 @@ environment:
   matrix:
 #    - PYTHON: "C:\\Python27"
 #      RETICULATE_PYTHON: "C:\\Python27"
+       MINICONDA: C:\Miniconda2
     - PYTHON: "C:\\Python35"
       RETICULATE_PYTHON: "C:\\Python35"
+      MINICONDA: C:\Miniconda3
     - PYTHON: "C:\\Python36"
       RETICULATE_PYTHON: "C:\\Python36"
+      MINICONDA: C:\Miniconda3
     - PYTHON: "C:\\Python37"
       RETICULATE_PYTHON: "C:\\Python37"
+      MINICONDA: C:\Miniconda3
     - PYTHON: "C:\\Python34"
       RETICULATE_PYTHON: "C:\\Python34"
+      MINICONDA: C:\Miniconda3
 
 matrix:
   fast_finish: true
@@ -38,7 +43,7 @@ install:
   - conda install -y -c conda-forge umap-learn 
   - "conda create -q -n r-reticulate python=%PYTHON_VERSION% numpy umap-learn" 
   - activate r-reticulate
-  - pip install -y --user umap-learn
+  - pip install --user umap-learn
   - ps: Bootstrap
 
 cache:
