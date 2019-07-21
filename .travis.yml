@@ -6,7 +6,8 @@ python:
   - "2.7"
   - "3.5"
   - "3.6"
-install:
+before_install
+  - pip install --user umap-learn
   - sudo apt-get update
   # We do this conditionally because it saves us some downloading if the
   # version is the same.
@@ -34,8 +35,6 @@ install:
 language: R
 sudo: false
 cache: packages
-before_install:
-  - pip install --user umap-learn
 r_packages:
   - covr
   - reticulate
