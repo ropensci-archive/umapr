@@ -46,7 +46,7 @@ install:
   - conda install -c pscondaenvs pscondaenvs
   - conda config --add channels bashtage 
   - conda install -y -c conda-forge umap-learn 
-  - conda create -y -q -n r-test -c conda-forge umap-learn numpy python=%PYTHON_VERSION%
+  - conda create -y -q -n r-reticulate -c conda-forge umap-learn numpy python=%PYTHON_VERSION%
   - conda activate r-reticulate
   - pip install --user umap-learn
   - ps: Bootstrap
