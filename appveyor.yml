@@ -47,7 +47,6 @@ install:
   - conda config --add channels bashtage 
   - conda install -y -c conda-forge umap-learn 
   - conda create -y -q -n r-test -c conda-forge umap-learn numpy python=%PYTHON_VERSION%
-  - conda init powershell
   - conda activate r-reticulate
   - pip install --user umap-learn
   - ps: Bootstrap
