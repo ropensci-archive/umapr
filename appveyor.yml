@@ -13,15 +13,19 @@ environment:
     - PYTHON: "C:\\Python35"
       RETICULATE_PYTHON: "C:\\Python35"
       MINICONDA: C:\Miniconda3
+      CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
     - PYTHON: "C:\\Python36"
       RETICULATE_PYTHON: "C:\\Python36"
       MINICONDA: C:\Miniconda3
+      CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
     - PYTHON: "C:\\Python37"
       RETICULATE_PYTHON: "C:\\Python37"
       MINICONDA: C:\Miniconda3
+      CONDA_INSTALL_LOCN: "C:\\Miniconda37-x64"
     - PYTHON: "C:\\Python34"
       RETICULATE_PYTHON: "C:\\Python34"
       MINICONDA: C:\Miniconda3
+      CONDA_INSTALL_LOCN: "C:\\Miniconda34-x64"
 
 matrix:
   fast_finish: true
@@ -35,7 +39,7 @@ init:
   - "ECHO %PYTHON_VERSION% %MINICONDA%"
 
 install: 
-  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%" 
+  - set PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%;
   - conda config --set always_yes yes --set changeps1 no 
   - conda update -q conda 
   - conda init powershell

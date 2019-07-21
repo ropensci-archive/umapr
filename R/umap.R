@@ -114,10 +114,17 @@
 #' @importFrom reticulate dict r_to_py py_module_available py_install import use_condaenv py_available
 #'
 #' @examples
+#' #test only if umap python module 
+#' if(reticulate::py_module_available("umap")){}
+#' 
 #' #import umap library (and load python module)
+#' 
 #' library("umapr")
 #' umap(as.matrix(iris[, 1:4]))
 #' umap(iris[, 1:4])
+#' 
+#' 
+#' }
 umap <- function(data,
                  include_input = TRUE,
                  n_neighbors = 15L,
@@ -303,6 +310,7 @@ umap_module <<- NULL
 
 .onAttach <- function(libname, pkgname) {
   if(py_available()){
+    use_condaenv("r-reticulate")
     modules <- py_module_available("umap")
     if(!modules){
       install_python_modules <- function(method = "auto", conda = "auto") {
