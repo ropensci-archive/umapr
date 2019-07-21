@@ -111,7 +111,7 @@
 #' @return matrix
 #' @export
 #' @importFrom assertthat assert_that is.count is.flag
-#' @importFrom reticulate dict r_to_py
+#' @importFrom reticulate dict r_to_py py_module_available py_install import use_condaenv py_available
 #'
 #' @examples
 #' #import umap library (and load python module)
@@ -182,22 +182,22 @@ umap <- function(data,
   # python library, try running it both ways in case of failure
   
   
-  modules <- reticulate::py_module_available("umap")
+  modules <- py_module_available("umap")
   if(!modules){
     install_python_modules <- function(method = "auto", conda = "auto") {
-      reticulate::py_install("umap-learn", method = method, conda = conda)
+      py_install("umap-learn", method = method, conda = conda)
     }
     tryCatch(install_python_modules(), 
              error = function(e) {
                modules <- FALSE
              },
              finally = "umap-learn installed")
-    modules <- reticulate::py_module_available("umap")
+    modules <- py_module_available("umap")
   } else {
     print("umap-learn already installed")
   }
   
-  umap_module <- reticulate::import("umap")
+  umap_module <- import("umap")
   
   umap_vec <- tryCatch(
     umap_module$UMAP(
@@ -276,42 +276,59 @@ umap_module <<- NULL
 
 .onLoad <- function(libname, pkgname) {
   # use superassignment to update global reference to umap
-  if(reticulate::py_available()){
-    reticulate::use_condaenv("r-reticulate")
-    modules <- reticulate::py_module_available("umap")
+  if(py_available()){
+    use_condaenv("r-reticulate")
+    modules <- py_module_available("umap")
     if(!modules){
       install_python_modules <- function(method = "auto", conda = "auto") {
-        reticulate::py_install("umap-learn", method = method, conda = conda)
+        py_install("umap-learn", method = method, conda = conda)
       }
       tryCatch(install_python_modules(), 
                error = function(e) {
                  modules <- FALSE
-               },
-              finally = "umap-learn installed")
-      modules <- reticulate::py_module_available("umap")
+               })
+      modules <- py_module_available("umap")
     }
     if (suppressWarnings(suppressMessages(requireNamespace("reticulate")))) {
       
       if (modules) {
         ## assignment in parent environment!
-        umap_module <<- reticulate::import("umap", delay_load = TRUE)
-        packageStartupMessage("umap-learn python module loaded successfully")
+        umap_module <- import("umap", delay_load = TRUE)
       } else {
         install_python_modules()
-        packageStartupMessage("Warning message:
-umap-learn python module not installed")
       }
     }
-  } else {
+  }
+}
+
+.onAttach <- function(libname, pkgname) {
+  if(py_available()){
+    modules <- py_module_available("umap")
+    if(!modules){
+      install_python_modules <- function(method = "auto", conda = "auto") {
+        py_install("umap-learn", method = method, conda = conda)
+      }
+      tryCatch(install_python_modules(), 
+               error = function(e) {
+                 modules <- FALSE
+               },
+               finally = "umap-learn installed")
+      modules <- py_module_available("umap")
+    }
+  } else{
     packageStartupMessage("Warning message:
 Python not installed
 Please install anaconda or miniconda
 https://conda.io/projects/conda/en/latest/user-guide/install/index.html")
   }
-}
-
-.onAttach <- function(libname, pkgname) {
-  if(reticulate::py_available()){
-  umap_module <<- reticulate::import("umap")
+  if(py_available() && py_module_available("umap")){
+  umap_module <- import("umap")
+  packageStartupMessage("umap-learn python module loaded successfully")
+  } else {
+    packageStartupMessage("Warning message:
+umap-learn module is not installed
+Please run one of the following:
+conda install -n r-reticulate -c conda-forge umap-learn
+conda activate r-reticulate; pip install umap-learn")
   }
 }

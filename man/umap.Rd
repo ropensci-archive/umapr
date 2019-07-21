@@ -153,6 +153,8 @@ matrix
 Provides an interface to the UMAP algorithm implemented in Python.
 }
 \examples{
+#import umap library (and load python module)
+library("umapr")
 umap(as.matrix(iris[, 1:4]))
 umap(iris[, 1:4])
 }
