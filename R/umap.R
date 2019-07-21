@@ -111,7 +111,6 @@
 #' @return matrix
 #' @export
 #' @importFrom assertthat assert_that is.count is.flag
-#' @importFrom methods is as
 #' @importFrom reticulate dict r_to_py
 #'
 #' @examples
@@ -179,6 +178,7 @@ umap <- function(data,
   
   # keyword "alpha" was renamed "initial_alpha" in a later version of the
   # python library, try running it both ways in case of failure
+  
   umap_vec <- tryCatch(
     umap_module$UMAP(
       n_neighbors = as.integer(n_neighbors),
@@ -252,17 +252,26 @@ is_dict <- function(x) {
 }
 
 # global reference to umap (will be initialized in .onLoad)
-umap_module <- NULL
+umap_module <<- NULL
 
 .onLoad <- function(libname, pkgname) {
   # use superassignment to update global reference to umap
   if(reticulate::py_available()){
-    use_condaenv("r-reticulate")
-    install_python_modules <- function(method = "auto", conda = "auto") {
-      reticulate::py_install("umap-learn", method = method, conda = conda)
+    reticulate::use_condaenv("r-reticulate")
+    modules <- reticulate::py_module_available("umap")
+    if(!modules){
+      install_python_modules <- function(method = "auto", conda = "auto") {
+        reticulate::py_install("umap-learn", method = method, conda = conda)
+      }
+      tryCatch(install_python_modules(), 
+               error = function(e) {
+                 stop(e)
+               },
+              finally = "umap-learn installed")
+      modules <- reticulate::py_module_available("umap")
     }
     if (suppressWarnings(suppressMessages(requireNamespace("reticulate")))) {
-      modules <- reticulate::py_module_available("umap")
+      
       if (modules) {
         ## assignment in parent environment!
         umap_module <<- reticulate::import("umap", delay_load = TRUE)
@@ -279,4 +288,8 @@ Python not installed
 Please install anaconda or miniconda
 https://conda.io/projects/conda/en/latest/user-guide/install/index.html")
   }
+}
+
+.onAttach <- function(libname, pkgname) {
+  umap_module <<- reticulate::import("umap")
 }

@@ -34,6 +34,7 @@ test_that("Things work as expected", {
   expect_error(umap(data = data, metric = "not a valid metric"), NULL)
   expect_error(umap(data = data, n_epochs = "Not count"), "n_epochs is not a count")
   expect_error(umap(data = data, alpha = "Not numeric"), "alpha is not a numeric")
+  expect_error(umap(data = data, learning_rate = "Not numeric"), "learning_rate is not a numeric")
   expect_error(umap(data = data, init = "not a valid init"), "init must be one of 'spectral', 'random', or a numpy array of initial embedding positions")
   expect_error(umap(data = data, spread = "Not numeric"), "spread is not a numeric")
   expect_error(umap(data = data, min_dist = "Not numeric"), "min_dist is not a numeric")
