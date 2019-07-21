@@ -29,7 +29,6 @@ install:
   - source ~/.bashrc
   - conda create -y -q -n r-reticulate -c conda-forge umap-learn python=$TRAVIS_PYTHON_VERSION
   - conda activate r-reticulate
-  - python setup.py install
 
 
 language: R
