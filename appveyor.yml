@@ -9,7 +9,7 @@ environment:
   matrix:
 #    - PYTHON: "C:\\Python27"
 #      RETICULATE_PYTHON: "C:\\Python27"
-       MINICONDA: C:\Miniconda2
+#      MINICONDA: C:\Miniconda2
     - PYTHON: "C:\\Python35"
       RETICULATE_PYTHON: "C:\\Python35"
       MINICONDA: C:\Miniconda3
