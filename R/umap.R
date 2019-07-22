@@ -227,9 +227,9 @@ umap <- function(data,
       metric_kwds = metric_kwds,
       angular_rp_forest = angular_rp_forest,
       verbose = verbose
-    )$fit_transform(as.matrix(data)),
+    )$fit_transform(r_to_py(as.matrix(data))),
     error = function(e) {
-      if (grepl("alpha", e$message)) {
+      if (grepl("alpha", e$message) || grepl("bandwidth", e$message)) {
         umap_module$UMAP(
           n_neighbors = r_to_py(as.integer(n_neighbors)),
           n_components = r_to_py(as.integer(n_components)),
@@ -256,7 +256,7 @@ umap <- function(data,
           transform_seed = r_to_py(as.integer(transform_seed)),
           verbose = r_to_py(verbose)
         )$fit_transform(r_to_py(as.matrix(data)))
-      } else {
+      } else  {
         stop(e)
       }
     }
