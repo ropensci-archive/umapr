@@ -1,6 +1,6 @@
 context("UMAP wrapper tests")
-library(umapr)
-library(reticulate)
+library("umapr")
+library("reticulate")
 
 # From https://cran.r-project.org/web/packages/reticulate/vignettes/package.html
 # helper function to skip tests if we don't have the 'foo' module
@@ -31,9 +31,10 @@ test_that("Things work as expected", {
   expect_error(umap(data = data, n_neighbors = "Not count"), "n_neighbors is not a count")
   expect_error(umap(data = data, n_components = "Not count"), "n_components is not a count")
   # metric must be one of the options listed here: https://github.com/lmcinnes/umap/blob/bf1c3e5c89ea393c9de10bd66c5e3d9bc30588ee/umap/umap_.py#L1211
-  expect_error(umap(data = data, metric = "not a valid metric"), "Valid metrics are")
+  expect_error(umap(data = data, metric = "not a valid metric"), NULL)
   expect_error(umap(data = data, n_epochs = "Not count"), "n_epochs is not a count")
   expect_error(umap(data = data, alpha = "Not numeric"), "alpha is not a numeric")
+  expect_error(umap(data = data, learning_rate = "Not numeric"), "learning_rate is not a numeric")
   expect_error(umap(data = data, init = "not a valid init"), "init must be one of 'spectral', 'random', or a numpy array of initial embedding positions")
   expect_error(umap(data = data, spread = "Not numeric"), "spread is not a numeric")
   expect_error(umap(data = data, min_dist = "Not numeric"), "min_dist is not a numeric")

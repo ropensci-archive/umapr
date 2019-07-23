@@ -1,12 +1,60 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-sudo: false
+sudo: true
 cache: packages
-before_install:
-  - pip install --user umap-learn
-r_packages:
-  - covr
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+os:
+  - linux
+  #- os: osx
+    #osx_image: xcode10.1
+    #disable_homebrew: true
+    #r_build_args: '--no-build-vignettes'
+    #r_check_args: '--ignore-vignettes --no-examples'
+
+addons:
+  apt:
+    #sources:
+    #  - ubuntu-toolchain-r-test
+    packages:
+      - libpython-dev
+      - libpython3-dev
+      - texlive-full
+      - cmake
+      - python3
+  #homebrew:
+    #packages:
+      #- libpython-dev
+      #- libpython3-dev
+      #- texlive-full
+      #- cmake
+      #- python3
+    #update: true
+
+r:
+  - release
+  - devel
+
+r-packages:
+  - reticulate
+  - knitr
+  - testthat
+  - RColorBrewer
+
+env:
+  global:
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual --ignore-vignettes --no-examples"
+    - R_BUILD_ARGS="--no-build-vignettes"
+
+python:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+
+before_install:
+  - chmod +x travis_setup.sh
+  - ./travis_setup.sh
+  - pip install --user conda
+  - pip install --user umap-learn
+
+warnings_are_errors: false

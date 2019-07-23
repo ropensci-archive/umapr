@@ -8,3 +8,4 @@
 ^img$
 ^LICENSE\.md$
 ^appveyor\.yml$
+^travis_setup.sh$  

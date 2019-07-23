@@ -1,33 +1,242 @@
 # DO NOT CHANGE the "init" and "install" sections below
 
-image: Visual Studio 2015
+image:
+#- Visual Studio 2015
+- Visual Studio 2017
+#- Ubuntu
 
 environment:
-  NOT_CRAN: true
-  USE_RTOOLS: true
-  PATH: "%PATH%;C:\\MinGW\\bin;C:\\MinGW\\msys\\1.0;C:\\MinGW\\msys\\1.0\\bin"
+  global:
+    PATH: C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows;%PATH%
+    #;C:\Windows\System32
+    R_CHECK_ARGS: "--ignore-vignettes --no-examples --no-build-vignettes --no-manual"
+    R_BUILD_ARGS: '--no-build-vignettes'
+    NOT_CRAN: true
+    USE_RTOOLS: true
+    _R_CHECK_FORCE_SUGGESTS_: false
   matrix:
-#    - PYTHON: "C:\\Python27"
-#      RETICULATE_PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python34"
-      RETICULATE_PYTHON: "C:\\Python34"
-    - PYTHON: "C:\\Python35"
-      RETICULATE_PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python36"
       RETICULATE_PYTHON: "C:\\Python36"
+      MINICONDA: C:\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: devel
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+      GCC_PATH: mingw_64
+    - PYTHON: "C:\\Python37"
+      RETICULATE_PYTHON: "C:\\Python37"
+      MINICONDA: C:\Miniconda37-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda37-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: devel
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+      GCC_PATH: mingw_64
+    - PYTHON: "C:\\Python35"
+      RETICULATE_PYTHON: "C:\\Python35"
+      MINICONDA: C:\Miniconda35-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda35-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: devel
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+      GCC_PATH: mingw_64
+    - PYTHON: "C:\\Python37"
+      RETICULATE_PYTHON: "C:\\Python37"
+      MINICONDA: C:\Miniconda37-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda37-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: release
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+    - PYTHON: "C:\\Python36"
+      RETICULATE_PYTHON: "C:\\Python36"
+      MINICONDA: C:\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: release
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+    - PYTHON: "C:\\Python35"
+      RETICULATE_PYTHON: "C:\\Python35"
+      MINICONDA: C:\Miniconda35-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda35-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: release
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+    - PYTHON: "C:\\Python37"
+      RETICULATE_PYTHON: "C:\\Python37"
+      MINICONDA: C:\Miniconda37-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda37-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: stable
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+    - PYTHON: "C:\\Python36"
+      RETICULATE_PYTHON: "C:\\Python36"
+      MINICONDA: C:\Miniconda36-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: stable
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+    - PYTHON: "C:\\Python35"
+      RETICULATE_PYTHON: "C:\\Python35"
+      MINICONDA: C:\Miniconda35-x64
+      CONDA_INSTALL_LOCN: C:\Miniconda35-x64
+      DISTUTILS_USE_SDK: "1"
+      R_VERSION: stable
+      R_ARCH: x64
+      platform: x64
+      PYTHON_ARCH: "64"
+
 
 matrix:
   fast_finish: true
+  exclude:
+    - platform: x64
+      PYTHON_ARCH: "32"
+    - platform: x86
+      PYTHON_ARCH: "64"
 
 # Download script file from GitHub
 init:
-  ps: |
+  - ps: |
         $ErrorActionPreference = "Stop"
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
+  - cmd: "ECHO %PYTHON_VERSION% %CONDA_INSTALL_LOCN%"
+  - cmd: "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
 
 install:
-  ps: Bootstrap
+  # If there is a newer build queued for the same PR, cancel this one.
+  # The AppVeyor 'rollout builds' option is supposed to serve the same
+  # purpose but it is problematic because it tends to cancel builds pushed
+  # directly to master instead of just PR builds (or the converse).
+  # credits: JuliaLang developers.
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+          throw "There are newer queued builds for this pull request, failing early." }
+  - ECHO "Filesystem root:"
+  - ps: "ls \"C:/\""
+
+  #- ECHO "Installed SDKs:"
+  #- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+  #- ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
+  #- travis-tool.sh install_github igraph/igraph
+  #- travis-tool.sh install_github igraph/python-igraph
+  # Install Python (from the official .msi of https://python.org) and pip when
+  # not already installed.
+  #- ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+
+  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  #- "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  #- "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # setup conda environment for building
+  #- cmd: set "PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\scripts;%PATH%"
+  #- cmd: set PYTHONUNBUFFERED=1
+
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  # Check that we have the expected version and architecture for Python
+  - "python -c \"import sys; print(sys.version)\""
+  # Install the build and runtime dependencies of the project.
+  - "conda update -q --yes conda"
+  # Install constructor, take into account what vc version we target later in the build..
+  - "conda install -q --yes 'constructor>=2.0'"
+  # list package versions
+  - "conda list"
+  # build installer
+  #- "constructor --verbose --platform=%CONDA_PLATFORM% %OBSPY_VERSION%_%CONDA_PYSUFFIX%"
+
+    # update mysy2
+  #- C:\msys64\usr\bin\bash -lc "pacman --needed --noconfirm -Sy pacman-mirrors"
+  #- C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy"
+  #- C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S autoconf automake bison flex"
+  #- C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S libxml2-devel zip"
+
+  - conda info --envs
+  #- conda create -n env_name -y
+  #- conda update -y -n base -c defaults conda
+  #- "conda.bat activate"
+  #- sudo conda init bash
+  #- bash
+  #- conda activate base
+  #- echo ". C:\Miniconda37/etc/profile.d/conda.sh" >> ~/.bashrc
+  #- conda activate env_name
+  - conda config --set always_yes yes --set changeps1 no
+  - conda config --add channels conda-forge
+  - conda config --add channels vtraag
+  - conda install -y -q conda pip
+  #- conda update -q conda pip
+  #- conda install -y -q numpy
+  #- conda install -y -q -c r r-igraph
+  #- conda install -y -q -c conda-forge libcxx
+  #- conda install -y -q -c anaconda git
+
+  #- git clone -q https://github.com/conda-forge/igraph-feedstock.git C:\projects\igraph-feedstock
+  #- git fetch -q origin +refs/pull/7/merge:
+  #- git checkout -qf HEAD
+  #- powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/conda-forge/conda-forge-build-setup-feedstock/master/recipe/ff_ci_pr_build.py', 'ff_ci_pr_build.py')"
+  #- ff_ci_pr_build -v --ci "appveyor" "%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%" "%APPVEYOR_BUILD_NUMBER%" "%APPVEYOR_PULL_REQUEST_NUMBER%"
+  #- del ff_ci_pr_build.py
+  #- rmdir C:\cygwin /s /q
+  #- call %CONDA_INSTALL_LOCN%\Scripts\activate.bat
+  #- conda.exe update --yes --quiet conda
+  #- set PYTHONUNBUFFERED=1
+  #- conda.exe config --set show_channel_urls true
+  #- conda.exe config --remove channels defaults
+  #- conda.exe config --add channels defaults
+  #- conda.exe config --add channels conda-forge
+  #- conda.exe install -n env_name --quiet --yes conda-forge-build-setup
+  #- run_conda_forge_build_setup
+  #- conda.exe build recipe --quiet
+  #- conda install -n env_name -y q igraph
+  - conda install -y numpy scipy
+  - conda install -y python-igraph
+  - conda install -y -c conda-forge umap-learn
+  #- conda install pip numpy scipy
+  #- "python -m pip install --upgrade pip"
+  #- "pip install -q pycairo"
+  #- pip install wheel
+  #- pip install python-igraph==0.7.1.post6
+  #- "pip install git+git://github.com/igraph/python-igraph.git"
+  #- "pip install -q leidenalg"
+  #- "echo done"
+
+  # Upgrade to the latest version of pip to avoid it displaying warnings
+  # about it being out of date.
+  #- "python -m pip install --upgrade pip"
+
+  # Install the build dependencies of the project. If some dependencies contain
+  # compiled extensions and are not provided as pre-built wheel packages,
+  # pip will build them from source using the MSVC compiler matching the
+  # target Python version and architecture
+  #- "%CMD_IN_ENV% pip install leidenalg python-igraph numpy"
+
+
+#install:
+  #install python libraries
+  #- "pip install --upgrade pip"
+  #- "pip install leidenalg"
+  - ps: Bootstrap
 
 cache:
   - C:\RLibrary
@@ -35,8 +244,14 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
-  - "%PYTHON%\\python.exe -m pip install setuptools numpy umap-learn"
+  - R -e 'install.packages("igraph")'
+  - R -e 'install.packages("RColorBrewer")'
+  - R -e 'install.packages("rmarkdown")'
+  - R -e 'install.packages("knitr")'
   - travis-tool.sh install_deps
+  #- "pip install -q graphviz" #includes python-igraph
+  #- "pip install -q leidenalg"
+
 
 test_script:
   - travis-tool.sh run_tests

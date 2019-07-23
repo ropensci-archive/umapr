@@ -1,6 +1,6 @@
 Package: umapr
 Title: Wraps UMAP Algorithm for Dimension Reduction
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: c(
     person("Sean", "Hughes", role = c("aut", "cre"), email = "smhughes@uw.edu"),
     person("Ted", "Laderas", role = "aut", email="tedladeras@gmail.com"),
@@ -18,13 +18,12 @@ LazyData: true
 Imports:
     reticulate,
     shiny,
-    R6,
     ggplot2,
-    tidyverse,
     assertthat
 Suggests:
     testthat,
+    tidyverse,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
