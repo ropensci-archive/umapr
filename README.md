@@ -3,6 +3,7 @@
 umapr
 =====
 
+[![Project Status: Abandoned – Initial development has started, but there has not yet been a stable, usable release; the project has been abandoned and the author(s) do not intend on continuing development.](https://www.repostatus.org/badges/latest/abandoned.svg)](https://www.repostatus.org/#abandoned)
 [![Travis-CI Build Status](https://travis-ci.org/ropenscilabs/umapr.svg?branch=master)](https://travis-ci.org/ropenscilabs/umapr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/juyeongkim/umapr?branch=master&svg=true)](https://ci.appveyor.com/project/juyeongkim/umapr) [![codecov](https://codecov.io/gh/ropenscilabs/umapr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/umapr)
 
 `umapr` wraps the Python implementation of UMAP to make the algorithm accessible from within R. It uses the great [`reticulate`](https://cran.r-project.org/web/packages/reticulate/index.html) package.
